@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "OpenAtlas Collecter",
+    "version": "1.0",
+    "description": "Instantly save and auto-categorize web resources into your OpenAtlas knowledge graph.",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
