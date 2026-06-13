@@ -42,6 +42,31 @@ app.post('/api/resources', (req,res) => {
     });
 });
 
+app.get('/api/resources', (req, res) => {
+    const db = getDbConnection();
+    const sqlQuey = `
+        SELECT id, url, title, notes, created_at
+        FROM resources
+        ORDER BY created_at DESC
+    `;
+
+    db.all(sqlQuey, [], (err, rows) => {
+        if(err) {
+            console.error(`SQL data retrieval error: ${err.message}`);
+            return res.status(500).json({
+                success: false,
+                error: 'Error getting data'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            count: rows.length,
+            data: rows
+        });
+    });
+});
+
 initializeDatabase()
     .then (() => {
         app.listen(5000, () => {
