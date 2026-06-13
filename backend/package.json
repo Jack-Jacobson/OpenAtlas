@@ -1,0 +1,14 @@
+{
+    "name": "openatlas-backend",
+    "version": "1.0.0",
+    "description": "Lightweight API server for OpenAtlas",
+    "main": "server.js",
+    "type": "commonjs",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.19.2"
+    }
+}
