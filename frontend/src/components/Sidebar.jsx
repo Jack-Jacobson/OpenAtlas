@@ -1,7 +1,7 @@
 export default function Sidebar(){
     return (
         <aside className = "dashboard-sidebar">
-            <div className = "siderbar-brand">
+            <div className = "sidebar-brand">
                 <h2>OpenAtlas</h2>
             </div>
 
@@ -16,7 +16,7 @@ export default function Sidebar(){
                 <ul>
                     <li>GenericOS</li>
                     <li>Portfolio</li>
-                    <li>SlackBot</li> //PLACEHOLDERS REMOVE FOR RELEASE
+                    <li>SlackBot</li> 
                 </ul>
             </div>
         </aside>
