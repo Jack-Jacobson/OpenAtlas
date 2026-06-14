@@ -1,4 +1,4 @@
-export default function Sidebar(){
+export default function Sidebar({isOpen}){
     return (
         <aside className = {`dashboard-sidebar ${!isOpen ? 'collapsed' : ''}`}>
             <div className = "sidebar-brand">
@@ -20,5 +20,5 @@ export default function Sidebar(){
                 </ul>
             </div>
         </aside>
-    )
+    );
 }

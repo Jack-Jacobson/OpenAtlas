@@ -1,9 +1,9 @@
-export default function InspectorPanel() {
+export default function InspectorPanel({ isOpen, closePanel }) {
     return (
-        <aside className = "dashboard-inspector">
+        <aside className = {`dashboard-inspector ${!isOpen ? 'collapsed' : ''}`}>
             <div className="inspector-header">
                 <h3>Resource Inspector</h3>
-                <button className="close-panel-btn">Close</button>
+                <button className="close-panel-btn" onClick = {closePanel} >Close</button>
             </div>
 
             <div className="inspector-body">
