@@ -81,7 +81,7 @@ initializeDatabase()
 app.get('/api/auth/status', (req, res) => {
     const cookieHeader = req.headers.cookie || '';
 
-    if(cookieHeader.includes('openatlas_session=clearence-token-secure')) {
+    if(cookieHeader.includes('openatlas_session=clearance-token-secure')) {
         return res.status(200).json({
             success: true,
             authenticated: true,
