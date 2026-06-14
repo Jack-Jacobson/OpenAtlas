@@ -76,4 +76,52 @@ initializeDatabase()
     .catch((error) => {
         console.error(`Server failed to start due to storage: ${error.message}`);
         process.exit(1);
+});
+
+app.get('/api/auth/status', (req, res) => {
+    const cookieHeader = req.headers.cookie || '';
+
+    if(cookieHeader.includes('openatlas_session=clearence-token-secure')) {
+        return res.status(200).json({
+            success: true,
+            authenticated: true,
+            message: "Session authenticated."
+        });
+    }
+
+    return res.status(401).json({
+        success: false,
+        authenticated: false,
+        message: "No active session found."
     });
+});
+
+app.post('/api/auth/login', (req, res) => {
+    const {username, password} = req.body;
+
+
+    if(username === 'admin' && password === 'OpenAtlas'){
+        console.log(`Administrative acces granted for "${username}"`);
+
+        res.setHeader('Set-Cookie', 'openatlas_session=clearance-token-secure; HttpOnly; Path=/; SameSite=Strict; Max-Age=86400');
+
+        return res.status(200).json({
+            success: true,
+            message: "Access granted."
+        });
+    } else {
+        console.log(`Failed access attempt from: ${username}`);
+        return res.status(401).json({
+            success: false,
+            error: "Access denied: Invalid credentials."
+        });
+    }
+});
+
+app.post('/api/auth/logout', (req, res) => {
+    res.setHeader('Set-Cookie', 'openatlas_session=; HttpOnly; Path=/; SameSite=Strict; Max-Age=0');
+    return res.status(200).json({
+        success: true,
+        message: "Session terminated."
+    });
+});

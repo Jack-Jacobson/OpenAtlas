@@ -1,30 +1,70 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
-export function AuthProvider ({ children }){
-    const [token, setToken] = useState(() => localStorage.getItem('authToken'));
+export function AuthProvider({children}){
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsloading] = useState(true);
 
-    const login = (newToken) => {
-        localStorage.setItem('authToken', newToken);
-        setToken(newToken);
+    useEffect(() => {
+        const verifySession = async () => {
+            try {
+                const res = await fetch ('/api/auth/status', {method:'GET'});
+                if(res.ok){
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                }
+            } catch (err) {
+                setIsAuthenticated(false);
+            } finally {
+                setIsloading(false);
+            }
+        };
+        verifySession();
+    }, []);
+
+    const login = async (username, password) => {
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({username, password})
+            });
+
+            if(!res.ok){
+                const errorData = await res.json();
+                return {success: false, error: errorData.message};
+            }
+
+            setIsAuthenticated(true);
+            return {success:true};
+        } catch (err) {
+            console.error('Session failure:', err);
+            return {success: false, error: 'Network error'};
+        }
     };
 
-    const logout = () => {
-        localStorage.removeItem('authToken');
-        setToken(null);
+    const logout = async () => {
+        try {
+            await fetch('/api/auth/logout', {method: 'POST'});
+        } catch (err) {
+            console.error('Logout error:', err);
+        } finally {
+            setIsAuthenticated(false);
+        }
     };
 
     const value = {
-        token,
-        isAuthenticated: !!token,
+        isAuthenticated,
         login,
-        logout
+        logout,
+        isLoading
     };
 
-    return (
+    return(
         <AuthContext.Provider value={value}>
-            {children}
+            {!isLoading ? children: <div className = "loading-screen">Syncing OpenAtlas</div>}
         </AuthContext.Provider>
     );
 }
