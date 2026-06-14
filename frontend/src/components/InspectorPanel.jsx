@@ -1,32 +1,41 @@
-export default function InspectorPanel({ isOpen, closePanel }) {
+export default function InspectorPanel({ isOpen, closePanel, activeResource }) {
     return (
         <aside className = {`dashboard-inspector ${!isOpen ? 'collapsed' : ''}`}>
             <div className="inspector-header">
                 <h3>Resource Inspector</h3>
                 <button className="close-panel-btn" onClick = {closePanel} >Close</button>
             </div>
-
-            <div className="inspector-body">
-                <div className="meta-group">
-                    <label>Target Identity Reference</label>
-                    <input type="text" defaultValue="Cloudflare Zero Trust Documentation" className="inspector-input" />
+            
+            {!activeResource ? (
+                <div className="inspect-body"style={{ justifyContent: 'center', alignItems: 'center', color: 'var(--text-muted)' }}>
+                    <p>Select a resource to view details.</p>
                 </div>
+            ) : (
+                <div>
+                    <div className="inspector-body" key={activeResource.id}>
+                            <div className="meta-group">
+                                <label>Target Identity Reference</label>
+                                <input type="text" defaultValue={activeResource.title} className="inspector-input"/>
+                            </div>
 
-                <div className="meta-group">
-                    <label>Captured URL Origin</label>
-                    <span className="inspector-url">https://developers.cloudflare.com</span>
+                            <div className="meta-group">
+                                <label>Captured URL</label>
+                                <span className = "inspector-url">{activeResource.url}</span>
+                            </div>
+
+                            <div className = "meta-group">
+                                <label>Other Notes</label>
+                                <textarea defaultValue={activeResource.notes} className="inspector-textarea"/>
+                            </div>
+                    </div>
+
+                    <div className="inspector-actions">
+                        <button className="save-changes-btn">Save System Updates</button>
+                        <button className="delete-record-btn">Purge Resource Entry</button>
+                    </div>
+
                 </div>
-
-                <div className="meta-group">
-                    <label>Extended Research Notes</label>
-                    <textarea defaultValue="Review access policies for cross-subdomain deployments." className="inspector-textarea" />
-                </div>
-            </div>
-
-            <div className = "inspector-actions">
-                <button className = "save-changes-btn">Save Changes</button>
-                <button className = "delete-record-btn">Delete Resource Entry</button>
-            </div>
-        </aside>
+            )}
+       </aside>
     );
 }

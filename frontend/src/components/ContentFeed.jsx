@@ -1,6 +1,6 @@
 import ResourceCard from './ResourceCard.jsx';
 
-export default function ContentFeed({ toggleSidebar, toggleInspector}) {
+export default function ContentFeed({ toggleSidebar, toggleInspector, resources, onSelectResource}) {
     return(
         <section className = "dashboard-content">
             <header className="content-header">
@@ -15,10 +15,14 @@ export default function ContentFeed({ toggleSidebar, toggleInspector}) {
                 </div>
             </header>
 
-            <div className = "resource-stream">
-                <ResourceCard title="Cloudflare Zero Trust Documentation" url="https://developers.cloudflare.com" notes="Review access policies for cross-subdomain deployments." />
-                <ResourceCard title="SQLite 3 Terminal Cheatsheet" url="https://sqlite.org" notes="Useful SQL commands for dropping target system data pools cleanly." />
-                <ResourceCard title="React Docs - Component State Management" url="https://react.dev" notes="Deep dive study guide for state management hooks." />
+            <div className ="resource-stream">
+                {resources.map((res) => (
+                    <ResourceCard
+                        key={res.id}
+                        data={res}
+                        onInspect={() => onSelectResource(res)}
+                    />
+                ))}
             </div>
         </section>
     );
