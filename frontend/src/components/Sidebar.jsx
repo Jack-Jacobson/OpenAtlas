@@ -1,6 +1,6 @@
 export default function Sidebar(){
     return (
-        <aside className = "dashboard-sidebar">
+        <aside className = {`dashboard-sidebar ${!isOpen ? 'collapsed' : ''}`}>
             <div className = "sidebar-brand">
                 <h2>OpenAtlas</h2>
             </div>
