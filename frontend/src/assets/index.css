@@ -347,3 +347,21 @@ body {
     margin-bottom: 16px;
     font-size: 12px;
 }
+.auth-action {
+    width: 100%;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.auth-action:hover {
+    background: #2563eb;
+}
+.auth-action:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

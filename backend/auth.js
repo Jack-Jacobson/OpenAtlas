@@ -1,0 +1,27 @@
+const jwt = require ('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'm7tveyxTlL3cIfYhhnNm98YWfdMQoF';
+
+function requireAuth(req, res, next) {
+    const token = req.cookies?.token;
+    if(!token){
+        return res.status(401).json({
+            success: false,
+            message: "Not authenticated."
+        });
+    }
+
+    try {
+        const payload = jwt.verify(token, JWT_SECRET);
+        req.userId = payload.userId;
+        req.username = payload.username;
+        next();
+    } catch (err) {
+        return res.status(401).json({
+            success: false,
+            message: 'Invalid or expired session'
+        });
+    }
+}
+
+module.exports = { requireAuth, JWT_SECRET };

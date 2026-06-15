@@ -4,6 +4,7 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({children}){
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
     const [isLoading, setIsloading] = useState(true);
 
     useEffect(() => {
@@ -13,10 +14,15 @@ export function AuthProvider({children}){
                     method:'GET',
                     credentials: 'include'
                 });
-                if(res.ok){
+
+                const data = await res.json().catch(() => ({}));
+
+                if(res.ok && data.authenticated){
                     setIsAuthenticated(true);
+                    setUser(data.user);
                 } else {
                     setIsAuthenticated(false);
+                    setUser(null);
                 }
             } catch (err) {
                 console.error('Session verification error:', err);

@@ -1,7 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const {initializeDatabase, getDbConnection} = require('./config/database');
+const {initializeUsersDatabase} = require('./config/usersDatabase');
+const authRoutes = require ('./authRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,11 +17,21 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(cookieParser());
 
+app.use('/api/auth', authRoutes);
+
+const {requireAuth} = require('./auth');
+app.get('/api/me', requireAuth, (req,res) => {
+    res.json({
+        success: true,
+        userId: req.userId,
+        username: req.username
+    });
+});
 
 app.post('/api/resources', (req,res) => {
     const {url, title, notes} = req.body;
-
     const db = getDbConnection();
     const resourceId = crypto.randomUUID();
 
@@ -74,62 +87,16 @@ app.get('/api/resources', (req, res) => {
     });
 });
 
+async function startServer(){
+    try {
+        await initializeDatabase();
+        await initializeUsersDatabase();
 
-
-app.get('/api/auth/status', (req, res) => {
-    const cookieHeader = req.headers.cookie || '';
-
-    if(cookieHeader.includes('openatlas_session=clearance-token-secure')) {
-        return res.status(200).json({
-            success: true,
-            authenticated: true,
-            message: "Session authenticated."
-        });
-    }
-
-    return res.status(401).json({
-        success: false,
-        authenticated: false,
-        message: "No active session found."
-    });
-});
-
-app.post('/api/auth/login', (req, res) => {
-    const {username, password} = req.body;
-
-    if(username === 'admin' && password === 'OpenAtlas'){
-        console.log(`Administrative acces granted for "${username}"`);
-
-        res.setHeader('Set-Cookie', 'openatlas_session=clearance-token-secure; HttpOnly; Path=/; SameSite=Strict; Max-Age=86400');
-
-        return res.status(200).json({
-            success: true,
-            message: "Access granted."
-        });
-    } else {
-        console.log(`Failed access attempt from: ${username}`);
-        return res.status(401).json({
-            success: false,
-            error: "Access denied: Invalid credentials."
-        });
-    }
-});
-
-app.post('/api/auth/logout', (req, res) => {
-    res.setHeader('Set-Cookie', 'openatlas_session=; HttpOnly; Path=/; SameSite=Strict; Max-Age=0');
-    return res.status(200).json({
-        success: true,
-        message: "Session terminated."
-    });
-});
-
-initializeDatabase()
-    .then (() => {
         app.listen(5000, () => {
             console.log(`OpenAtlas server is actively listening on http://localhost:5000`);
         });
-    })
-    .catch((error) => {
+    } catch (error) {
         console.error(`Server failed to start due to storage: ${error.message}`);
         process.exit(1);
-});
+    }
+}
