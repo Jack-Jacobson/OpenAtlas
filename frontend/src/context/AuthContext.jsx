@@ -9,13 +9,17 @@ export function AuthProvider({children}){
     useEffect(() => {
         const verifySession = async () => {
             try {
-                const res = await fetch ('/api/auth/status', {method:'GET'});
+                const res = await fetch ('/api/auth/status', {
+                    method:'GET',
+                    credentials: 'include'
+                });
                 if(res.ok){
                     setIsAuthenticated(true);
                 } else {
                     setIsAuthenticated(false);
                 }
             } catch (err) {
+                console.error('Session verification error:', err);
                 setIsAuthenticated(false);
             } finally {
                 setIsloading(false);
@@ -28,6 +32,7 @@ export function AuthProvider({children}){
         try {
             const res = await fetch('/api/auth/login', {
                 method: 'POST',
+                credentials: "include",
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({username, password})
             });
@@ -36,7 +41,6 @@ export function AuthProvider({children}){
                 const errorData = await res.json();
                 return {success: false, error: errorData.message};
             }
-
             setIsAuthenticated(true);
             return {success:true};
         } catch (err) {
@@ -47,7 +51,10 @@ export function AuthProvider({children}){
 
     const logout = async () => {
         try {
-            await fetch('/api/auth/logout', {method: 'POST'});
+            await fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
         } catch (err) {
             console.error('Logout error:', err);
         } finally {
@@ -55,24 +62,11 @@ export function AuthProvider({children}){
         }
     };
 
-    const value = {
-        isAuthenticated,
-        login,
-        logout,
-        isLoading
-    };
-
     return(
-        <AuthContext.Provider value={value}>
-            {!isLoading ? children: <div className = "loading-screen">Syncing OpenAtlas</div>}
-        </AuthContext.Provider>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+        {children}
+    </AuthContext.Provider>
     );
 }
 
-export function useAuth(){
-    const context = useContext(AuthContext);
-    if(!context) {
-        throw new Error('useAuth must be used inside an AuthProvider');
-    }
-    return context;
-}
+export const useAuth = () => useContext(AuthContext);

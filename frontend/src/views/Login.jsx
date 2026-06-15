@@ -12,13 +12,12 @@ export default function Login() {
         e.preventDefault();
         setIsSubmitting(true);
         setError('');
-
         const result = await login(username, password);
 
         if(!result.success){
             setError(result.error || 'Access denied: Invalid credentials.');
-            setIsSubmitting(false);
         }
+        setIsSubmitting(false);
     };
 
     return (
@@ -37,8 +36,6 @@ export default function Login() {
                         value = {username}
                         onChange = {(e) => setUsername(e.target.value)}
                         className = "inspector-input"
-                        placeholder = "Username"
-                        autoComplete = "off"
                         required
                         disabled = {isSubmitting}
                     />
@@ -51,19 +48,13 @@ export default function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className = "inspector-input"
-                        placeholder = "Password"
                         required
                         disabled = {isSubmitting}
                     />
                 </div>
 
-                <button 
-                    type="submit" 
-                    className = "save-changes-btn" 
-                    style={{ marginTop: '24px', width: '100%' }}
-                    disabled = {isSubmitting}                
-                >
-                    {isSubmitting ? 'Verifying...' : 'Enter'}
+                <button type="submit" className="auth-action" disabled={isSubmitting}>
+                    {isSubmitting ? 'Syncing...' : 'Enter'}
                 </button>
             </form>
         </div>

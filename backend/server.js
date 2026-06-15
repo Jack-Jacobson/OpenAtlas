@@ -4,15 +4,22 @@ const crypto = require('crypto');
 const {initializeDatabase, getDbConnection} = require('./config/database');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
+
 
 app.post('/api/resources', (req,res) => {
     const {url, title, notes} = req.body;
 
     const db = getDbConnection();
-
     const resourceId = crypto.randomUUID();
 
     const sqlQuery = `
@@ -44,13 +51,13 @@ app.post('/api/resources', (req,res) => {
 
 app.get('/api/resources', (req, res) => {
     const db = getDbConnection();
-    const sqlQuey = `
+    const sqlQuery = `
         SELECT id, url, title, notes, created_at
         FROM resources
         ORDER BY created_at DESC
     `;
 
-    db.all(sqlQuey, [], (err, rows) => {
+    db.all(sqlQuery, [], (err, rows) => {
         if(err) {
             console.error(`SQL data retrieval error: ${err.message}`);
             return res.status(500).json({
@@ -67,16 +74,7 @@ app.get('/api/resources', (req, res) => {
     });
 });
 
-initializeDatabase()
-    .then (() => {
-        app.listen(5000, () => {
-            console.log(`OpenAtlas server is actively listening on http://localhost:5000`);
-        });
-    })
-    .catch((error) => {
-        console.error(`Server failed to start due to storage: ${error.message}`);
-        process.exit(1);
-});
+
 
 app.get('/api/auth/status', (req, res) => {
     const cookieHeader = req.headers.cookie || '';
@@ -98,7 +96,6 @@ app.get('/api/auth/status', (req, res) => {
 
 app.post('/api/auth/login', (req, res) => {
     const {username, password} = req.body;
-
 
     if(username === 'admin' && password === 'OpenAtlas'){
         console.log(`Administrative acces granted for "${username}"`);
@@ -124,4 +121,15 @@ app.post('/api/auth/logout', (req, res) => {
         success: true,
         message: "Session terminated."
     });
+});
+
+initializeDatabase()
+    .then (() => {
+        app.listen(5000, () => {
+            console.log(`OpenAtlas server is actively listening on http://localhost:5000`);
+        });
+    })
+    .catch((error) => {
+        console.error(`Server failed to start due to storage: ${error.message}`);
+        process.exit(1);
 });
