@@ -27,12 +27,29 @@ export function AuthProvider({children}){
             } catch (err) {
                 console.error('Session verification error:', err);
                 setIsAuthenticated(false);
+                setUser(null);
             } finally {
                 setIsloading(false);
             }
         };
+
         verifySession();
     }, []);
+
+    const handleAuthResponse = async (res) => {
+        const data = await res.json().catch(() => ({}));
+
+        if(!res.ok){
+            return {
+                success: false,
+                error: data.message || 'Request failed.'
+            };
+        }
+
+        setIsAuthenticated(true);
+        setUser(data.user);
+        return { success: true, user: data.user };
+    };
 
     const login = async (username, password) => {
         try {
@@ -43,15 +60,26 @@ export function AuthProvider({children}){
                 body: JSON.stringify({username, password})
             });
 
-            if(!res.ok){
-                const errorData = await res.json();
-                return {success: false, error: errorData.message};
-            }
-            setIsAuthenticated(true);
-            return {success:true};
+            return handleAuthResponse(res);
         } catch (err) {
-            console.error('Session failure:', err);
+            console.error('Login error:', err);
             return {success: false, error: 'Network error'};
+        }
+    };
+
+    const register = async (username, password, email) => {
+        try {
+            const res = await fetch ('/api/auth/register', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {'Content-Type': 'applications/json'},
+                body: JSON.stringify({ username, password, email})
+            });
+
+            return handleAuthResponse(res);
+        } catch {
+            console.error('Register error:', err);
+            return {success: false, error: 'Network error. Try again.'}
         }
     };
 
@@ -65,14 +93,25 @@ export function AuthProvider({children}){
             console.error('Logout error:', err);
         } finally {
             setIsAuthenticated(false);
+            setUser(null);
         }
     };
 
     return(
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+    <AuthContext.Provider 
+    value={{ isAuthenticated, user, isLoading, login, register, logout }}
+    >
         {children}
     </AuthContext.Provider>
     );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth(){
+    const ctx = useContext(AuthContext);
+
+    if(!ctx){
+        throw new Error('useAuth must be inside AuthProvider')
+    }
+
+    return ctx;
+}

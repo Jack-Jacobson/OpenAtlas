@@ -1,13 +1,29 @@
 import Dashboard from './views/Dashboard.jsx';
-import Login from './views/Login.jsx'
+import Login from './components/Login.jsx'
 import { useAuth } from './context/AuthContext.jsx';
+import { useState } from 'react';
+import Signup from './components/Signup';
 
 export default function App() {
-  const {isAuthenticated} = useAuth();
+  const {isAuthenticated, isLoading} = useAuth();
+  const [view, setView] = useState('login');
 
-  return(
-    <div className="app-root-container">
-      {isAuthenticated ? <Dashboard /> : <Login />}
-    </div>
-  );
+  if(isLoading){
+    return(
+      <div className = "app-loading">
+        <div className = "spinner" />
+        <p>Verifying session...</p>
+      </div>
+    );
+  }
+
+  if(!isAuthenticated){
+    return view === 'signup' ? (
+      <Signup onSwitchToLogin={() => setView('login')} />
+    ) : ( 
+      <Login onSwitchToSignup={() => setView('signup')} />
+    );
+  }
+
+  return <Dashboard />;
 }

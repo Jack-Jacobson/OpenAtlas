@@ -12,6 +12,7 @@ export default function Login() {
         e.preventDefault();
         setIsSubmitting(true);
         setError('');
+
         const result = await login(username, password);
 
         if(!result.success){
@@ -24,38 +25,47 @@ export default function Login() {
         <div className= "login-portal-container">
             <form onSubmit = {handleSubmit} className = "login-card">
                 <div className = "login-brand">
-                    <h2>Open Atlas | Core Auth</h2>
+                    <h2>OpenAtlas | Core Auth</h2>
                 </div>
 
                 {error && <div className = "auth-error-banner">{error}</div>}
             
                 <div className = "meta-group">
-                    <label>User</label>
+                    <label htmlFor="login-user">User</label>
                     <input
+                        id = "login-user"
                         type = "text"
                         value = {username}
                         onChange = {(e) => setUsername(e.target.value)}
-                        className = "inspector-input"
                         required
                         disabled = {isSubmitting}
+                        autoComplete="username"
                     />
                 </div>
 
                 <div className = "meta-group" style = {{marginTop: '16px'}}>
                     <label>Password</label>
                     <input
+                        id = "login-user"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className = "inspector-input"
                         required
                         disabled = {isSubmitting}
+                        autoComplete="current-password"
                     />
                 </div>
 
                 <button type="submit" className="auth-action" disabled={isSubmitting}>
-                    {isSubmitting ? 'Syncing...' : 'Enter'}
+                    {isSubmitting ? 'Entering...' : 'Enter'}
                 </button>
+
+                <p className="auth-toggle">
+                    Need an account?{' '}
+                    <button type="button" className="link-button" onClick={onSwitchToSignup}>
+                        Create one
+                    </button>
+                </p>
             </form>
         </div>
     );
