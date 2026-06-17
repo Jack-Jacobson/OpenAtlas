@@ -191,7 +191,8 @@ router.post('/login', async (req, res) => {
       res.cookie('token', token, COOKIE_OPTS);
       return res.json({
         success: true,
-        user: sanitizeUser(user)
+        user: sanitizeUser(user),
+        token
       });
     });
   } catch (err) {

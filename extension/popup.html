@@ -3,61 +3,143 @@
 <head>
     <meta charset = "utf-8">
     <style>
+         :root {
+            --bg-primary: #020617;
+            --bg-surface: #0f172a;
+            --border-color: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            width: 280px;
-            font-family: sans-serif;
-            padding: 12px;
-            margin: 0;
-            background-color: #f9fafb;
+            width: 320px;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            padding: 16px;
         }
-        h3 {
-            margin-top: 0;
-            color: #111827;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        textarea {
-            width: 100%;
-            height: 60px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            padding: 6px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            resize: none;
-            font-size: 12px;
-        }
-        textarea:focus {
-            outline:none;
-            border-color: #3b82f6;
-        }
-        button {
-            width: 100%;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 4px;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        button:hover {
-            background-color: #1d4ed8;
-        }
-        #status{
-            margin-top: 8px;
-            font-size: 11px;
-            color: #6b7280;
+        .brand {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
             text-align: center;
         }
+        .meta-group { margin-bottom: 12px; }
+        .meta-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .meta-group input {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .meta-group input:focus {
+            outline: none;
+            border-color: var(--acent);
+        }
+        .auth-action {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 10px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .auth-action:hover { background: #2563eb; }
+        .auth-action:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .auth-error-banner {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 11px;
+        }
+        .auth-toggle {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+        .link-button {
+            background: none;
+            border: none;
+            color: var(--acent);
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 0;
+            font: inherit;
+        }
+        .notes-area {
+            width: 100%;
+            min-height: 80px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 4px;
+            font-family: inherit;
+            margin-bottom: 12px;
+        }
+        .notes-area:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .status {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <h3>OpenAtlas Collecter</h3>
-    <textarea id= "notes" placeholder="Add optional thoughts, context, or notes here..."></textarea>
-    <button id="save-btn">Save to OpenAtlas</button>
-    <div id="status"></div>
+    <div class="brand">OpenAtlas Collector</div>
+
+    <div id="login-view">
+        <div id="login-error" class="auth-error-banner hidden"></div>
+        <div class="meta-group">
+            <label for="login-user">Username</label>
+            <input id="login-user" type="text" autocomplete="username"/>
+        </div>
+        <div class="meta-group">
+            <label for="login-password">Password</label>
+            <input id="login-password" type="password" autocomplete="current-password"/>
+        </div>
+        <button id="login-btn" class="auth-action">Enter</button>
+        <p class="auth-toggle">
+            Need an account?
+            <button type="button" id="signup-link" class="link-button">Create one</button>
+        </p>
+    </div>
+
+    <div id="save-view" class="hidden">
+        <textarea id="notes" class="notes-area" placholder="Add additional notes (optional)..."></textarea>
+        <button id="save-btn" class="auth-action">Save to OpenAtlas</button>
+        <p class="auth-toggle">
+            Signed in as <span id="current-user">user</span>
+            <button type="button" id="logout-btn" class="link-button">Logout</button>
+        </p>
+        <div id="status" class="status"></div>
+    </div>
 
     <script src="popup.js"></script>
 </body>

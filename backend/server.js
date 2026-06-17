@@ -30,7 +30,7 @@ app.get('/api/me', requireAuth, (req,res) => {
     });
 });
 
-app.post('/api/resources', (req,res) => {
+app.post('/api/resources', requireAuth, (req,res) => {
     const {url, title, notes} = req.body;
     const db = getDbConnection();
     const resourceId = crypto.randomUUID();
@@ -62,7 +62,7 @@ app.post('/api/resources', (req,res) => {
     });
 });
 
-app.get('/api/resources', (req, res) => {
+app.get('/api/resources', requireAuth, (req, res) => {
     const db = getDbConnection();
     const sqlQuery = `
         SELECT id, url, title, notes, created_at

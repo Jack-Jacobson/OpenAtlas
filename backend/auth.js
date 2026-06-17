@@ -3,7 +3,8 @@ const jwt = require ('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'm7tveyxTlL3cIfYhhnNm98YWfdMQoF';
 
 function requireAuth(req, res, next) {
-    const token = req.cookies?.token;
+    const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+    
     if(!token){
         return res.status(401).json({
             success: false,
