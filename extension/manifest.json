@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "OpenAtlas Collecter",
+    "name": "OpenAtlas Collector",
     "version": "1.0",
     "description": "Instantly save and auto-categorize web resources into your OpenAtlas knowledge graph.",
     "permissions": [

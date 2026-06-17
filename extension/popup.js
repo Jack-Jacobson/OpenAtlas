@@ -10,7 +10,7 @@ const signupLink = document.getElementById('signup-link');
 const notes = document.getElementById('notes');
 const saveBtn = document.getElementById('save-btn');
 const statusDiv = document.getElementById('statusDiv');
-const currentUser = document.getElementById('statusDiv');
+const currentUser = document.getElementById('current-user');
 const logoutBtn = document.getElementById('logout-btn');
 
 function showLogin() {
@@ -19,7 +19,7 @@ function showLogin() {
 }
 
 function showSave(username) {
-    loginBtn.classList.add('hidden');
+    loginView.classList.add('hidden');
     saveView.classList.remove('hidden');
     currentUser.textContent = username;
 }
@@ -73,7 +73,7 @@ loginBtn.addEventListener('click', async () => {
     }
 });
 
-signupLink.addEventListener('clocl', () => {
+signupLink.addEventListener('click', () => {
     chrome.tabs.create({ url: 'https://localhost:5173/ '});
 });
 

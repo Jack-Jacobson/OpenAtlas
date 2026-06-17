@@ -44,7 +44,7 @@ export default function Login({onSwitchToSignup}) {
                 </div>
 
                 <div className = "meta-group" style = {{marginTop: '16px'}}>
-                    <label>Password</label>
+                    <label htmlFor="login-password">Password</label>
                     <input
                         id = "login-password"
                         type="password"

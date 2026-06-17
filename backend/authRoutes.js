@@ -129,7 +129,8 @@ router.post('/register', async (req, res) => {
               res.cookie('token', token, COOKIE_OPTS);
               return res.status(201).json({
                 success: true,
-                user: sanitizeUser(user)
+                user: sanitizeUser(user),
+                token
               });
             }
           );

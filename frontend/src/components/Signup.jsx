@@ -20,7 +20,7 @@ export default function Signup ({onSwitchToLogin}) {
         }
 
         if(password.length < 8){
-            setError('Password must be at least eight characters. (A-Z, 0-9, _-)')
+            setError('Password must be at least eight characters.')
             return;
         }
 

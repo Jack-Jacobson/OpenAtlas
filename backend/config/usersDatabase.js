@@ -38,7 +38,7 @@ function initializeUsersDatabase(){
 
 function getUsersDbConnection() {
     if(!db){
-        throw new Error('Users database connection not initialized. Call initializeDatanse.')
+        throw new Error('Users database connection not initialized. Call initializeUsersDatabase first.')
     }
     return db;
 }

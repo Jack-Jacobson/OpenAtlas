@@ -14,7 +14,9 @@ export default function Dashboard(){
     useEffect(() => {
         const loadLiveData = async () => {
             try {
-                const res = await fetch('/api/resources');
+                const res = await fetch('/api/resources', {
+                    credentials: 'include'
+                });
                 const json = await res.json();
 
                 if(res.ok && json.success){

@@ -92,7 +92,7 @@ async function startServer(){
         await initializeDatabase();
         await initializeUsersDatabase();
 
-        app.listen(5000, () => {
+        app.listen(PORT, () => {
             console.log(`OpenAtlas server is actively listening on http://localhost:5000`);
         });
     } catch (error) {
