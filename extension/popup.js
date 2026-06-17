@@ -74,7 +74,7 @@ loginBtn.addEventListener('click', async () => {
 });
 
 signupLink.addEventListener('click', () => {
-    chrome.tabs.create({ url: 'https://localhost:5173/ '});
+    chrome.tabs.create({ url: 'http://localhost:5173/ '});
 });
 
 logoutBtn.addEventListener('click', async () => {
