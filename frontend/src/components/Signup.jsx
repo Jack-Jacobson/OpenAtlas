@@ -50,7 +50,7 @@ export default function Signup ({onSwitchToLogin}) {
                 {error && <div className="auth-error-banner">{error}</div>}
 
                 <div className = "meta-group">
-                    <lablel htmlFor="signup-user">Username</lablel>
+                    <label htmlFor="signup-user">Username</label>
                     <input
                         id="signup-user"
                         type="text"
@@ -88,7 +88,7 @@ export default function Signup ({onSwitchToLogin}) {
                     <label htmlFor="signup-confirm">Confirm Password</label>
                     <input 
                         id="signup-confirm"
-                        type="passwrod"
+                        type="password"
                         value = {confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
@@ -101,7 +101,7 @@ export default function Signup ({onSwitchToLogin}) {
                     </button>
 
                     <p className="auth-toggle">
-                        Already have an account?(' ')
+                        Already have an account?{' '}
                         <button type="button" className="link-button" onClick={onSwitchToLogin}>
                             Sign in
                         </button>

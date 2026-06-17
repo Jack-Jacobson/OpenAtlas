@@ -44,6 +44,6 @@ function getUsersDbConnection() {
 }
 
 module.exports = {
-    initializeDatabase,
+    initializeUsersDatabase,
     getUsersDbConnection
 };

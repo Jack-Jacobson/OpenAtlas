@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
-export default function Login() {
+export default function Login({onSwitchToSignup}) {
     const {login} = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -46,7 +46,7 @@ export default function Login() {
                 <div className = "meta-group" style = {{marginTop: '16px'}}>
                     <label>Password</label>
                     <input
-                        id = "login-user"
+                        id = "login-password"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
