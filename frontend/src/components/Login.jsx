@@ -25,7 +25,7 @@ export default function Login({onSwitchToSignup}) {
         <div className= "login-portal-container">
             <form onSubmit = {handleSubmit} className = "login-card">
                 <div className = "login-brand">
-                    <h2>OpenAtlas | Core Auth</h2>
+                    <h2>OpenAtlas | Login </h2>
                 </div>
 
                 {error && <div className = "auth-error-banner">{error}</div>}

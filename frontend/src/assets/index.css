@@ -357,6 +357,8 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-top: 24px;
+    padding: 12px 0;
 }
 .auth-action:hover {
     background: #2563eb;
