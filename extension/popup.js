@@ -34,7 +34,7 @@ async function checkAuth() {
 }
 
 loginBtn.addEventListener('click', async () => {
-    loginError.classList('hidden');
+    loginError.classList.add('hidden');
     loginBtn.disabled = true;
     loginBtn.textContent = 'Entering...';
 
@@ -74,7 +74,7 @@ loginBtn.addEventListener('click', async () => {
 });
 
 signupLink.addEventListener('click', () => {
-    chrome.tabs.create({ url: 'http://localhost:5173/ '});
+    chrome.tabs.create({ url: 'http://localhost:5173/'});
 });
 
 logoutBtn.addEventListener('click', async () => {
