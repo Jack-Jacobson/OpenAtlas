@@ -479,3 +479,44 @@ body {
     background: #991b1b;
     color: #ffffff;
 }
+.active-project {
+    color: var(--text-main) !important;
+    font-weight: 600;
+}
+.sidebar-projects li {
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+}
+.workspaces-container {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+.workspace-form {
+    max-width: 400px;
+    margin-bottom: 32px;
+}
+.workspace-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.workspace-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    padding: 16px;
+    border-radius: 8px;
+}
+.workspace-card h4 {
+    margin-bottom: 4px;
+}
+.workspace-card p {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.empty-state {
+    color: var(--text-muted);
+    font-style: italic;
+}

@@ -1,4 +1,4 @@
-export default function InspectorPanel({ isOpen, closePanel, activeResource }) {
+export default function InspectorPanel({ isOpen, closePanel, activeResource, projects, onAssignProject }) {
     return (
         <aside className = {`dashboard-inspector ${!isOpen ? 'collapsed' : ''}`}>
             <div className="inspector-header">
@@ -29,6 +29,19 @@ export default function InspectorPanel({ isOpen, closePanel, activeResource }) {
                             </div>
                     </div>
 
+                    <div className="meta-group">
+                        <label>Project</label>
+                        <select
+                            className="inspector-input"
+                            value={activeResource.project_id || ''}
+                            onChange={(e) => onAssignProject(e.target.value || null)}
+                        >
+                            <option value="">No project</option>
+                            {projects.map(p => (
+                                <option key={p.id} value={p.id}>{p.name}</option>
+                            ))}
+                        </select>
+                    </div>
                     <div className="inspector-actions">
                         <button className="save-changes-btn">Save System Updates</button>
                         <button className="delete-record-btn">Purge Resource Entry</button>

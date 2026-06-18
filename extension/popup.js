@@ -22,6 +22,8 @@ function showSave(username) {
     loginView.classList.add('hidden');
     saveView.classList.remove('hidden');
     currentUser.textContent = username;
+
+    loadProjects();
 }
 
 async function checkAuth() {
@@ -73,6 +75,31 @@ loginBtn.addEventListener('click', async () => {
     }
 });
 
+async function loadProjects(){
+    const { token } = await chrome.storage.local.get(['token']);
+    if(!token) return;
+
+    try {
+        const res = await fetch('https://localhost:5000/api/projects', {
+            headers: { 'Authorization': `Bearer ${token}`}
+        });
+
+        const data = await res.json();
+        if(!data.success) return;
+
+        const select = document.getElementById('project-select');
+        select.innerHTML = '<option value="">No Project</option>'
+        data.projects.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = p.name;
+            select.appendChild(opt);
+        });
+    } catch (err) {
+        console.error('Load projects error:', err);
+    }
+}
+
 signupLink.addEventListener('click', () => {
     chrome.tabs.create({ url: 'http://localhost:5173/'});
 });
@@ -99,7 +126,8 @@ saveBtn.addEventListener('click', async () => {
     const pageData = {
         url: tab.url,
         title: tab.title,
-        notes: notes.value
+        notes: notes.value,
+        projectId: document.getElementById('project-select').value || null
     };
 
     chrome.runtime.sendMessage(
@@ -128,3 +156,4 @@ saveBtn.addEventListener('click', async () => {
 });
 
 checkAuth();
+

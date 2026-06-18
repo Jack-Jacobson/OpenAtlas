@@ -1,4 +1,4 @@
-export default function Sidebar({isOpen, onNavigate, activeView}){
+export default function Sidebar({isOpen, onNavigate, activeView, projects, onSelectProject }){
     return (
         <aside className = {`dashboard-sidebar ${!isOpen ? 'collapsed' : ''}`}>
             <div className = "sidebar-brand">
@@ -24,9 +24,18 @@ export default function Sidebar({isOpen, onNavigate, activeView}){
             <div className = "sidebar-projects">
                 <h3>Active Projects</h3>
                 <ul>
-                    <li>GenericOS</li>
-                    <li>Portfolio</li>
-                    <li>SlackBot</li> 
+                    <li className={activeProjectId  === null ? 'active-project' : ''} onClick={() => onSelectProject(null)}>
+                        All Resources
+                    </li>            
+                    {projects.map(p => (
+                        <li 
+                            key={p.id}
+                            className={activeProjectId === p.id ? 'active-project' : ''}
+                            onClick={() => onSelectProject(p.id)}
+                        >
+                            {p.name}
+                        </li>
+                    ))}            
                 </ul>
             </div>
         </aside>
