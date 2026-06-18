@@ -30,6 +30,100 @@ app.get('/api/me', requireAuth, (req,res) => {
     });
 });
 
+app.post('/api/projects', requireAuth, (req, res) => {
+    const { name,description } = req.body;
+    if(!name || typeof name !== 'string' || name.trim().length === 0) {
+        return res.status(400).json({success: false, message: 'Project name requierd.'});
+    }
+
+    const db = getDbConnection();
+    const projectId = crypto.randomUUID();
+
+    db.run (
+        'INSERT INTO projects (id, user_id, name, description) VALUES (?, ?, ?, ?)',
+        [projectId, req.userId, name.trim(), description || null],
+        function(err) {
+            if (err) {
+                console.error('Project insert error:', err.message);
+                return res.status(500).json({ success: false, message: 'Failed to create project.' });
+            }
+
+            db.get('SELECT * FROM projects WHERE id = ?', [projectId], (err, row) => {
+                if(err || !row){
+                    return res.status(500).json({ success: false, message: 'Failed to get project.' });
+                }
+                res.status(201).json({ success: true, project: row});
+            });
+        }
+    );
+});
+
+app.get('/api/projects', requireAuth, (req, res) => {
+    const db = getDbConnection();
+
+    db.all(
+        'SELECT id, name, description, created_a FROM projects WHERE user_id = ? ORDER BY name ASC',
+        [req.userId],
+        (err, rows) => {
+            if(err) {
+                console.error('Project fetche error:', err.message);
+                return res.status(500).json({success: false, message: 'Failed to get projecs.'});
+            }
+
+            res.json({ success: true, projects: rows });
+        }
+    );
+});
+
+app.put('/api/resources/:id/project', requireAuth, (req, res) => {
+    const { projectId } = req.body;
+    const db = getDbConnection();
+
+    db.get(
+        'SELECT id, user_id FROM resources WHERE id = ? AND user_id = ?',
+        [req.params.id, req.userId],
+        (err, resource) => {
+            if (err || !resources){
+                return res.status(400).json({ success: false, message: 'Project not found.' });
+            }
+            
+            if(projectId){
+                db.get(
+                    'SELECT id FROM projects WHERE id = ? AND user_id = ?',
+                    [projectId, req.userId],
+                    (err, project) => {
+                        if (err || !project){
+                            return res.status(400).json({ success: false, message: 'Project not found,'});
+                        }
+
+                        db.run (
+                            'UPDATE resources SET project_id = ? WHERE id = ?',
+                            [projectId, req.params.id],
+                            function (err) {
+                                if(err) {
+                                    return res.status(500).json({ success: false, messaeg: 'Failed to update resources'});
+                                }
+                                res.json({ success: true, message: 'Resurce assigned to project.'});
+                            }
+                        );
+                    }
+                );
+            } else {
+                db.run(
+                    'UPDATE resources SET project_id = NULL WHERE id = ?',
+                    [req.params.id],
+                    function(err) {
+                        if(err){
+                            return res.status(500).json({success: false, message: 'Failed to remove project assignment' });
+                        }
+                        res.json({ success: true, message: 'Project assignment removed.'});
+                    }
+                );
+            }
+        }
+    );
+});
+
 app.delete('/api/auth/delete-account', requireAuth, (req,res) => {
     const mainDb = getDbConnection();
     const usersDb = getUsersDbConnection();
@@ -65,7 +159,7 @@ app.delete('/api/auth/delete-account', requireAuth, (req,res) => {
 });
 
 app.post('/api/resources', requireAuth, (req,res) => {
-    const {url, title, notes} = req.body;
+    const {url, title, notes, projectId} = req.body;
     const db = getDbConnection();
     const resourceId = crypto.randomUUID();
 
@@ -74,7 +168,7 @@ app.post('/api/resources', requireAuth, (req,res) => {
         VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    const queryParameters = [resourceId, req.userId, url, title, notes || null, null, null];
+    const queryParameters = [resourceId, req.userId, url, title, notes || null, null, projectId || null];
 
     db.run(sqlQuery, queryParameters, function(err) {
         if (err) {
