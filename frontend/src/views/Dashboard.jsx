@@ -36,10 +36,11 @@ export default function Dashboard(){
 
     useEffect(() => {
        fetch('/api/projects', { credentials: 'include' })
-            .then (r => r.json())
-            .then (data => {
+            .then(r => r.json())
+            .then(data => {
                 if(data.success) setProjects(data.projects);
-        }); 
+            }
+        ); 
     }, []);
 
 return(
@@ -62,14 +63,15 @@ return(
                 }}    
             />
 
-            ) : activeView = 'settings' ? (
+            ) : activeView === 'settings' ? (
                 <Settings onClose={() => setActiveView('dashboard')} />
             ) : (
                 <>
                     <ContentFeed
                         toggleSidebar = {() => setSidebarOpen(!isSidebarOpen)}
                         toggleInspector={() => setInspectorOpen(!isInspectorOpen)}
-                        resources = {(resource) => {
+                        resources = {resources}
+                        onSelectResource={(resource) => {
                             setActiveResource(resource);
                             setInspectorOpen(true);
                         }}

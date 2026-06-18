@@ -38,7 +38,7 @@ function initializeDatabase(){
 
 function getDbConnection() {
     if(!db){
-        throw new Error('Datanase connection not initialized. Call initializeDatabse.')
+        throw new Error('Datanase connection not initialized. Call initializeDatabase.')
     }
     return db;
 }

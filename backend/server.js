@@ -33,7 +33,7 @@ app.get('/api/me', requireAuth, (req,res) => {
 app.post('/api/projects', requireAuth, (req, res) => {
     const { name,description } = req.body;
     if(!name || typeof name !== 'string' || name.trim().length === 0) {
-        return res.status(400).json({success: false, message: 'Project name requierd.'});
+        return res.status(400).json({success: false, message: 'Project name required.'});
     }
 
     const db = getDbConnection();
@@ -62,11 +62,11 @@ app.get('/api/projects', requireAuth, (req, res) => {
     const db = getDbConnection();
 
     db.all(
-        'SELECT id, name, description, created_a FROM projects WHERE user_id = ? ORDER BY name ASC',
+        'SELECT id, name, description, t FROM projects WHERE user_id = ? ORDER BY name ASC',
         [req.userId],
         (err, rows) => {
             if(err) {
-                console.error('Project fetche error:', err.message);
+                console.error('Project fetch error:', err.message);
                 return res.status(500).json({success: false, message: 'Failed to get projecs.'});
             }
 
@@ -83,8 +83,8 @@ app.put('/api/resources/:id/project', requireAuth, (req, res) => {
         'SELECT id, user_id FROM resources WHERE id = ? AND user_id = ?',
         [req.params.id, req.userId],
         (err, resource) => {
-            if (err || !resources){
-                return res.status(400).json({ success: false, message: 'Project not found.' });
+            if (err || !resource){
+                return res.status(404).json({ success: false, message: 'Project not found.' });
             }
             
             if(projectId){
@@ -93,7 +93,7 @@ app.put('/api/resources/:id/project', requireAuth, (req, res) => {
                     [projectId, req.userId],
                     (err, project) => {
                         if (err || !project){
-                            return res.status(400).json({ success: false, message: 'Project not found,'});
+                            return res.status(400).json({ success: false, message: 'Project not found.'});
                         }
 
                         db.run (

@@ -10,7 +10,7 @@ export default function ContentFeed({ toggleSidebar, toggleInspector, resources,
                 </div>
 
                 <div className="header-group">
-                    <div className ="feed-meta">Showing 3 links</div>
+                    <div className ="feed-meta">Showing {resources.length} resources</div>
                     <button className = "toggle-btn" onClick={toggleInspector}>Inspector</button>
                 </div>
             </header>

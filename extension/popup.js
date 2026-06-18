@@ -80,7 +80,7 @@ async function loadProjects(){
     if(!token) return;
 
     try {
-        const res = await fetch('https://localhost:5000/api/projects', {
+        const res = await fetch('http://localhost:5000/api/projects', {
             headers: { 'Authorization': `Bearer ${token}`}
         });
 
@@ -88,7 +88,7 @@ async function loadProjects(){
         if(!data.success) return;
 
         const select = document.getElementById('project-select');
-        select.innerHTML = '<option value="">No Project</option>'
+        select.innerHTML = '<option value="">No Project</option>';
         data.projects.forEach(p => {
             const opt = document.createElement('option');
             opt.value = p.id;

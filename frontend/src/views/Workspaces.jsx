@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Workspaces({ projects, oneProjectsChange, onSelectProject }) {
+export default function Workspaces({ projects, onProjectsChange, onSelectProject }) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
@@ -22,7 +22,7 @@ export default function Workspaces({ projects, oneProjectsChange, onSelectProjec
             return;
         }
 
-        oneProjectsChange([...projects, data.project]);
+        onProjectsChange([...projects, data.project]);
         setName('');
         setDescription('');
         setError('');    
