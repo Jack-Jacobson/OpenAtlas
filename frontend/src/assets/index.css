@@ -416,4 +416,66 @@ body {
 .dashboard-header .auth-action {
   width: auto;
   padding: 8px 16px;
+} 
+.settings-container {
+    flex: 1;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    overflow-y: auto;
+}
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+.settings-header h2 {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.settings-section h3 {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+.settings-username {
+    margin-bottom: 24px;
+    color: var(--text-muted);
+}
+.settings-username span{
+    color: var(--text-main);
+    font-weight: 600;
+}
+.settings-danger-btn {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    background: none;
+    border: 1px solid #7f1d1d;
+    color: #f87171;
+    font-family: var(--font-mono);
+    padding: 12px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.settings-danger-btn:hover {
+    background: #7f1d1d;
+    color: #ffffff;
+}
+.delete-account-btn {
+    border-color: #991b1b;
+    color: #fca5a5;
+}
+.delete-account-btn:hover {
+    background: #991b1b;
+    color: #ffffff;
 }

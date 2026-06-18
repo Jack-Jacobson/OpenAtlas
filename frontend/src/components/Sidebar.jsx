@@ -1,4 +1,4 @@
-export default function Sidebar({isOpen}){
+export default function Sidebar({isOpen, onNavigate, activeView}){
     return (
         <aside className = {`dashboard-sidebar ${!isOpen ? 'collapsed' : ''}`}>
             <div className = "sidebar-brand">
@@ -6,9 +6,19 @@ export default function Sidebar({isOpen}){
             </div>
 
             <nav className = "sidebar-nav">
-                <button className = "nav-item active">Inbox</button>
+                <button
+                    className = {`nav-item ${activeView === 'dashboard' ? 'active' : ''}`}
+                    onClick={() => onNavigate('dashboard')}
+                >
+                    Inbox
+                </button>
                 <button className = "nav-item">Workspaces</button>
-                <button className = "nav-item">Settings</button>
+                <button
+                    className = {`nav-item ${activeView = 'settings' ? 'active' : ''}`}
+                    onClick={() => onNavigate('settings')}
+                >
+                    Settings
+                </button>
             </nav>
 
             <div className = "sidebar-projects">
