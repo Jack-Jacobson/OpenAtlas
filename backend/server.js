@@ -36,12 +36,11 @@ app.post('/api/resources', requireAuth, (req,res) => {
     const resourceId = crypto.randomUUID();
 
     const sqlQuery = `
-        INSERT INTO resources (id, url, title, notes, content_snippet, project_id)
-        VALUES (?, ?, ?, ?, ?, ?)
-
+        INSERT INTO resources (id, user_id, url, title, notes, content_snippet, project_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    const queryParameters = [resourceId, url, title, notes || null, null, null];
+    const queryParameters = [resourceId, req.userId, url, title, notes || null, null, null];
 
     db.run(sqlQuery, queryParameters, function(err) {
         if (err) {
@@ -67,10 +66,11 @@ app.get('/api/resources', requireAuth, (req, res) => {
     const sqlQuery = `
         SELECT id, url, title, notes, created_at
         FROM resources
+        WHERE user_id = ?
         ORDER BY created_at DESC
     `;
 
-    db.all(sqlQuery, [], (err, rows) => {
+    db.all(sqlQuery, [req.userId], (err, rows) => {
         if(err) {
             console.error(`SQL data retrieval error: ${err.message}`);
             return res.status(500).json({

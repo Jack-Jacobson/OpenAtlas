@@ -2,6 +2,7 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS resources (
     id TEXT PRIMARY KEY,
+    user_id TEXT,
     url TEXT NOT NULL,
     title TEXT NOT NULL,
     notes TEXT,
