@@ -14,7 +14,7 @@ export default function Sidebar({isOpen, onNavigate, activeView}){
                 </button>
                 <button className = "nav-item">Workspaces</button>
                 <button
-                    className = {`nav-item ${activeView = 'settings' ? 'active' : ''}`}
+                    className = {`nav-item ${activeView === 'settings' ? 'active' : ''}`}
                     onClick={() => onNavigate('settings')}
                 >
                     Settings
