@@ -108,6 +108,10 @@ body {
 .sidebar-projects li:hover{
     color: var(--text-main);
 }
+.sidebar-projects .active-project {
+    color: var(--accent);
+    font-weight: 600;
+}
 .dashboard-content {
     flex-grow: 1;
     display: flex;
@@ -492,6 +496,10 @@ body {
     flex: 1;
     padding: 24px;
     overflow-y: auto;
+    margin: 16px;
+    border-radius: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
 }
 .workspace-form {
     max-width: 400px;

@@ -7,7 +7,7 @@ export default function InspectorPanel({ isOpen, closePanel, activeResource, pro
             </div>
             
             {!activeResource ? (
-                <div className="inspect-body"style={{ justifyContent: 'center', alignItems: 'center', color: 'var(--text-muted)' }}>
+                <div className="inspector-body"style={{ justifyContent: 'center', alignItems: 'center', color: 'var(--text-muted)' }}>
                     <p>Select a resource to view details.</p>
                 </div>
             ) : (
