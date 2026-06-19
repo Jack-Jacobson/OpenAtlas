@@ -88,13 +88,18 @@ async function loadProjects(){
         if(!data.success) return;
 
         const select = document.getElementById('project-select');
-        select.innerHTML = '<option value="">No Project</option>';
-        data.projects.forEach(p => {
-            const opt = document.createElement('option');
-            opt.value = p.id;
-            opt.textContent = p.name;
-            select.appendChild(opt);
-        });
+        if (data.projects.length === 0) {
+            select.innerHTML = '<option value="">Create projects on the website first</option>';
+        } 
+        else {
+            select.innerHTML = '<option value="">No project</option>';
+            data.projects.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name;
+                select.appendChild(opt);
+            });
+        }
     } catch (err) {
         console.error('Load projects error:', err);
     }

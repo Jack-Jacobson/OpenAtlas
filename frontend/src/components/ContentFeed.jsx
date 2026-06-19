@@ -1,6 +1,6 @@
 import ResourceCard from './ResourceCard.jsx';
 
-export default function ContentFeed({ toggleSidebar, toggleInspector, resources, onSelectResource}) {
+export default function ContentFeed({ toggleSidebar, toggleInspector, resources, onSelectResource, projects}) {
     return(
         <section className = "dashboard-content">
             <header className="content-header">
@@ -20,7 +20,7 @@ export default function ContentFeed({ toggleSidebar, toggleInspector, resources,
                     <ResourceCard
                         key={res.id}
                         data={res}
-                        projectName={loadProjects.find(p => p.id === res.project_id)?.name}
+                        projectName={projects.find(p => p.id === res.project_id)?.name}
                         onInspect={() => onSelectResource(res)}
                     />
                 ))}

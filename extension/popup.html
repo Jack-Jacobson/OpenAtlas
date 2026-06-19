@@ -117,14 +117,18 @@
             padding: 8px 10px;
             border-radius: 4px;
             font-family: inherit;
+            margin-bottom: 6px;
         }
         .project-select option {
             background: var(--bg-surfcae);
             color: var(--text-main);
         }
         .notes-area {
-            resize: vertical;
-            min-height: 80px;
+            resize: none;
+        }
+        .project-hint {
+            font-size: 11px;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -151,9 +155,8 @@
     <div id="save-view" class="hidden">
         <div class="meta-group">
             <label for="project-select">Project</label>
-            <select id="project-select" class="project-select">
-                <option value="No project"></option>
-            </select>
+            <select id="project-select" class="project-select"></select>
+            <p class="project-hint">Projects are created on the Workspaces page.</p>
         </div>
         <div class="meta-group">
             <label for="notes">Notes</label>

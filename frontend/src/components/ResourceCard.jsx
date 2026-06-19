@@ -1,4 +1,4 @@
-export default function ResourceCard({data, onInspect}){
+export default function ResourceCard({data, projectName, onInspect}){
     return (
         <div className="resource-card">
             <div className="card-header">

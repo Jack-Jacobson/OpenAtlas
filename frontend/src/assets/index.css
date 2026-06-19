@@ -578,3 +578,11 @@ body {
     font-size: 11px;
     margin: 0;
 }
+.workspace-form {
+  max-width: 400px;
+  margin-bottom: 32px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+}

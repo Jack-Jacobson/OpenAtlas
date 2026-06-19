@@ -72,6 +72,7 @@ return(
                         toggleSidebar = {() => setSidebarOpen(!isSidebarOpen)}
                         toggleInspector={() => setInspectorOpen(!isInspectorOpen)}
                         resources = {resources}
+                        projects = {projects}
                         onSelectResource={(resource) => {
                             setActiveResource(resource);
                             setInspectorOpen(true);
