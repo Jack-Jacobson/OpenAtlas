@@ -62,7 +62,7 @@ app.get('/api/projects', requireAuth, (req, res) => {
     const db = getDbConnection();
 
     db.all(
-        'SELECT id, name, description, t FROM projects WHERE user_id = ? ORDER BY name ASC',
+        'SELECT id, name, description, created_at FROM projects WHERE user_id = ? ORDER BY name ASC',
         [req.userId],
         (err, rows) => {
             if(err) {
