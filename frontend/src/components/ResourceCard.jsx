@@ -7,7 +7,7 @@ export default function ResourceCard({data, onInspect}){
             </div>
             <p className = "card-notes">{data.notes}</p>
             <div className="card-footer">
-                <span className = "card-tag">#{data.project_id || 'uncategorized'}</span>
+                {data.project_id && <span className="card-tag">#{projectName}</span>}
                 <button className = "inspect-btn" onClick={onInspect}>Inspect Details</button>
             </div>
         </div>

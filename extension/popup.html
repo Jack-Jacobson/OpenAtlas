@@ -109,6 +109,23 @@
             font-size: 12px;
         }
         .hidden { display: none; }
+        .project-select {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .project-select option {
+            background: var(--bg-surfcae);
+            color: var(--text-main);
+        }
+        .notes-area {
+            resize: vertical;
+            min-height: 80px;
+        }
     </style>
 </head>
 <body>
@@ -132,10 +149,16 @@
     </form>
 
     <div id="save-view" class="hidden">
-        <select id="project-select" class="project-select">
-            <option value="">No project</option>
-        </select>
-        <textarea id="notes" class="notes-area" placholder="Add additional notes (optional)..."></textarea>
+        <div class="meta-group">
+            <label for="project-select">Project</label>
+            <select id="project-select" class="project-select">
+                <option value="No project"></option>
+            </select>
+        </div>
+        <div class="meta-group">
+            <label for="notes">Notes</label>
+            <textarea id="notes" class="notes-area" placholder="Add additional notes (optional)..."></textarea>
+        </div>
         <button id="save-btn" class="auth-action">Save this page to OpenAtlas</button>
         <p class="auth-toggle">
             Signed in as <span id="current-user">user</span>

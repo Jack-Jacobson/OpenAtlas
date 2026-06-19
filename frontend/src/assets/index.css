@@ -476,11 +476,22 @@ body {
     color: #ffffff;
 }
 .delete-account-btn {
-    border-color: #991b1b;
-    color: #fca5a5;
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    background: none;
+    border: 1px solid #7f1d1d;
+    color: #f87171;
+    font-family: var(--font-mono);
+    padding: 12px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    font-weight: 600;
 }
 .delete-account-btn:hover {
-    background: #991b1b;
+    background: #7f1d1d;
     color: #ffffff;
 }
 .active-project {
@@ -504,6 +515,10 @@ body {
 .workspace-form {
     max-width: 400px;
     margin-bottom: 32px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
 }
 .workspace-list {
     display: flex;
@@ -527,4 +542,39 @@ body {
 .empty-state {
     color: var(--text-muted);
     font-style: italic;
+}
+.workspace-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+.workspace-card-resources {
+    margin-top: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.workspace-resource-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px;
+}
+.workspace-resource-item a {
+    color: var(--acent);
+    text-decoration: none;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+}
+.workspace-resource-item p {
+    color: var(--text-muted);
+    font-size: 11px;
+    margin: 0;
 }

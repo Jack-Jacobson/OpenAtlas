@@ -56,6 +56,7 @@ return(
         {activeView === 'workspaces' ? (
             <Workspaces
                 projects={projects}
+                resources={resources}
                 onProjectsChange={setProjects}
                 onSelectProject={(id) => {
                     setActiveProjectId(id);

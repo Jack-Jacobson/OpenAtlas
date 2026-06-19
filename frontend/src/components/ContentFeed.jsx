@@ -20,6 +20,7 @@ export default function ContentFeed({ toggleSidebar, toggleInspector, resources,
                     <ResourceCard
                         key={res.id}
                         data={res}
+                        projectName={loadProjects.find(p => p.id === res.project_id)?.name}
                         onInspect={() => onSelectResource(res)}
                     />
                 ))}
