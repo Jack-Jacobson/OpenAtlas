@@ -60,7 +60,6 @@ return(
                 onProjectsChange={setProjects}
                 onSelectProject={(id) => {
                     setActiveProjectId(id);
-                    setActiveView('dashboard');
                 }}    
             />
 

@@ -586,3 +586,17 @@ body {
   border-radius: 12px;
   padding: 24px;
 }
+.workspace-form input, .workspace-form textarea {
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: inherit;
+    margin-top: 4px;
+}
+.workspace-form input:focus {
+    outline: none;
+    border-color: var(--acent);
+}

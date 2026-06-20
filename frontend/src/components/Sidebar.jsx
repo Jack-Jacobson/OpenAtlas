@@ -28,10 +28,7 @@ export default function Sidebar({isOpen, onNavigate, activeView, projects, onSel
 
             <div className = "sidebar-projects">
                 <h3>Active Projects</h3>
-                <ul>
-                    <li className={activeProjectId  === null ? 'active-project' : ''} onClick={() => onSelectProject(null)}>
-                        All Resources
-                    </li>            
+                <ul>    
                     {projects.map(p => (
                         <li 
                             key={p.id}
