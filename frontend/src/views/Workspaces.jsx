@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-export default function Workspaces({ projects, resources, onProjectsChange, onSelectProject }) {
+export default function Workspaces({ projects, resources, onProjectsChange, onSelectProject, reloadResources }) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
     const [expandedProjectId, setExpandedProjectId] = useState(null);
+    const getProjectResources = (projectId) => resources.filter(r => r.project_id === projectId);
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -66,6 +67,9 @@ export default function Workspaces({ projects, resources, onProjectsChange, onSe
 
             <div className="workspace-list">
                 <h3>Your Projects</h3>
+                <button type="button" className="toggle-btn" onClick={reloadResources}>
+                    Refresh Resources
+                </button>
                 {projects.length === 0 && <p className="empty-state">No projects yet. Create one above.</p>}
                 {projects.map(p => (
                     <div key={p.id} className="workspace-card">
@@ -76,16 +80,20 @@ export default function Workspaces({ projects, resources, onProjectsChange, onSe
                         <p>{p.description}</p>
                         {expandedProjectId === p.id && (
                             <div className="workspace-card-resources">
-                                {resources.filter(r => r.project_id === p.id).length === 0 ? (
-                                    <p className="empty-state">No resources in this project yet.</p>
-                                ) : (
-                                    resources.filter(r => r.project_id === p.id).map(r => (
-                                        <div key={r.id} className="workspace-resource-item">
-                                            <a href={r.url} target="_blank" rel="noreferrer">{r.title}</a>
-                                            <p>{r.notes}</p>
-                                        </div>
-                                    ))
-                                )}
+                                {(() => {
+                                    const projectResources = getProjectResources(p.id);
+
+                                    return projectResources.length === 0 ? (
+                                        <p className="empty-state">No resources in this project yet.</p>
+                                    ) : (
+                                        projectResources.map(r => (
+                                            <div key={r.id} className="workspace-resource-item">
+                                                <a href={r.url} target="_blank" rel="noreferrer">{r.title}</a>
+                                                <p>{r.notes}</p>
+                                            </div>
+                                        ))
+                                    );
+                                })()}
                             </div>
                         )}
                     </div>

@@ -89,7 +89,7 @@ async function loadProjects(){
 
         const select = document.getElementById('project-select');
         if (data.projects.length === 0) {
-            select.innerHTML = '<option value="">Create projects on the website first</option>';
+            select.innerHTML = '<option value="">No project</option>';
         } 
         else {
             select.innerHTML = '<option value="">No project</option>';
@@ -135,6 +135,8 @@ saveBtn.addEventListener('click', async () => {
         projectId: document.getElementById('project-select').value || null
     };
 
+    console.log('Sending pageData:', pageData);
+
     chrome.runtime.sendMessage(
         { action: 'SEND_DATA', payload: pageData },
         (response) => {
@@ -152,6 +154,11 @@ saveBtn.addEventListener('click', async () => {
 
             if (response?.success) {
                 statusDiv.textContent = 'Saved to your Atlas!';
+
+                if (tab.url && tab.url.startsWith('http://localhost:5173/')) {
+                    chrome.tabs.reload(tab.id);
+                }
+
                 setTimeout(() => window.close(), 1000);
             } else {
                 statusDiv.textContent = response?.error || 'Error: failed to save.';

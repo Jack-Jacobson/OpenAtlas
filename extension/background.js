@@ -5,6 +5,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return;
     }
 
+console.log('Background received payload:', message.payload);
+
     chrome.storage.local.get(['token'], async ({ token }) => {
         if(!token){
             sendResponse({ needsLogin: true, error: 'Not authenticated.'});

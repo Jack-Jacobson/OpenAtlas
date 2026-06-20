@@ -75,7 +75,7 @@ app.get('/api/projects', requireAuth, (req, res) => {
     );
 });
 
-app.put('/api/resources/:id/project', requireAuth, (req, res) => {
+app.put('/api/resources/id/project', requireAuth, (req, res) => {
     const { projectId } = req.body;
     const db = getDbConnection();
 
@@ -169,6 +169,8 @@ app.post('/api/resources', requireAuth, (req,res) => {
     `;
 
     const queryParameters = [resourceId, req.userId, url, title, notes || null, null, projectId || null];
+
+    console.log('Received resource data:', { url, title, notes, projectId, userId: req.userId });
 
     db.run(sqlQuery, queryParameters, function(err) {
         if (err) {
