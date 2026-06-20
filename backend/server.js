@@ -194,7 +194,7 @@ app.post('/api/resources', requireAuth, (req,res) => {
 app.get('/api/resources', requireAuth, (req, res) => {
     const db = getDbConnection();
     const sqlQuery = `
-        SELECT id, url, title, notes, created_at
+        SELECT id, url, title, notes, project_id, created_at
         FROM resources
         WHERE user_id = ?
         ORDER BY created_at DESC

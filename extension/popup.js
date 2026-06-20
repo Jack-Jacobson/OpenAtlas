@@ -67,6 +67,7 @@ loginBtn.addEventListener('click', async () => {
 
         loginPassword.value = '';
         showSave(data.user.username);
+        loadProjects();
     } catch (err){
         loginError.textContent = 'Network error, ensure server is running.';
         loginError.classList.remove('hidden');
