@@ -1,32 +1,53 @@
-export default function InspectorPanel({ isOpen, closePanel, activeResource, projects, onAssignProject }) {
+import { useState, useEffect } from 'react';
+
+export default function InspectorPanel({ isOpen, closePanel, activeResource, projects, onAssignProject, onSave, onDelete }) {
+    const [title, setTitle] = useState('');
+    const [notes, setNotes] = useState('');
+
+    useEffect(() => {
+        if (activeResource) {
+            setTitle(activeResource.title || '');
+            setNotes(activeResource.notes || '');
+        }
+    }, [activeResource]);
+
     return (
-        <aside className = {`dashboard-inspector ${!isOpen ? 'collapsed' : ''}`}>
+        <aside className={`dashboard-inspector ${!isOpen ? 'collapsed' : ''}`}>
             <div className="inspector-header">
                 <h3>Resource Inspector</h3>
-                <button className="close-panel-btn" onClick = {closePanel} >Close</button>
+                <button className="close-panel-btn" onClick={closePanel}>Close</button>
             </div>
-            
+
             {!activeResource ? (
-                <div className="inspector-body"style={{ justifyContent: 'center', alignItems: 'center', color: 'var(--text-muted)' }}>
+                <div className="inspector-body" style={{ justifyContent: 'center', alignItems: 'center', color: 'var(--text-muted)' }}>
                     <p>Select a resource to view details.</p>
                 </div>
             ) : (
                 <div>
                     <div className="inspector-body" key={activeResource.id}>
-                            <div className="meta-group">
-                                <label>Target Identity Reference</label>
-                                <input type="text" defaultValue={activeResource.title} className="inspector-input"/>
-                            </div>
+                        <div className="meta-group">
+                            <label>Target Identity Reference</label>
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className="inspector-input"
+                            />
+                        </div>
 
-                            <div className="meta-group">
-                                <label>Captured URL</label>
-                                <span className = "inspector-url">{activeResource.url}</span>
-                            </div>
+                        <div className="meta-group">
+                            <label>Captured URL</label>
+                            <span className="inspector-url">{activeResource.url}</span>
+                        </div>
 
-                            <div className = "meta-group">
-                                <label>Other Notes</label>
-                                <textarea defaultValue={activeResource.notes} className="inspector-textarea"/>
-                            </div>
+                        <div className="meta-group">
+                            <label>Other Notes</label>
+                            <textarea
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                                className="inspector-textarea"
+                            />
+                        </div>
                     </div>
 
                     <div className="meta-group">
@@ -42,13 +63,17 @@ export default function InspectorPanel({ isOpen, closePanel, activeResource, pro
                             ))}
                         </select>
                     </div>
-                    <div className="inspector-actions">
-                        <button className="save-changes-btn">Save System Updates</button>
-                        <button className="delete-record-btn">Purge Resource Entry</button>
-                    </div>
 
+                    <div className="inspector-actions">
+                        <button className="save-changes-btn" onClick={() => onSave(activeResource.id, { title, notes })}>
+                            Save System Updates
+                        </button>
+                        <button className="delete-record-btn" onClick={() => onDelete(activeResource.id)}>
+                            Delete Resource Entry
+                        </button>
+                    </div>
                 </div>
             )}
-       </aside>
+        </aside>
     );
 }

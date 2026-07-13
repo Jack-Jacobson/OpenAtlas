@@ -5,6 +5,33 @@ import InspectorPanel from '../components/InspectorPanel.jsx';
 import Workspaces from './Workspaces.jsx';
 import Settings from './Settings.jsx';
 
+const handleSaveResource = async (id, { title, notes }) => {
+  const res = await fetch(`/api/resources/${id}`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title, notes })
+  });
+  const data = await res.json();
+  if (data.success) {
+    setResources(resources.map(r => r.id === id ? { ...r, title, notes } : r));
+    setActiveResource(prev => (prev && prev.id === id) ? { ...prev, title, notes } : prev);
+  }
+};
+
+const handleDeleteResource = async (id) => {
+  const res = await fetch(`/api/resources/${id}`, {
+    method: 'DELETE',
+    credentials: 'include'
+  });
+  const data = await res.json();
+  if (data.success) {
+    setResources(resources.filter(r => r.id !== id));
+    setActiveResource(null);
+    setInspectorOpen(false);
+  }
+};
+
 export default function Dashboard(){
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [isInspectorOpen, setInspectorOpen] = useState(true);
@@ -82,20 +109,9 @@ return(
                         closePanel={() => setInspectorOpen(false)}
                         activeResource={activeResource}
                         projects={projects}
-                        onAssignProject={async (projectId) => {
-                            if (!activeResource) return;
-                            const res = await fetch(`/api/resources/${activeResource.id}/project`, {
-                            method: 'PUT',
-                            credentials: 'include',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ projectId })
-                            });
-                            const data = await res.json();
-                            if (data.success) {
-                            setActiveResource({ ...activeResource, project_id: projectId });
-                            setResources(resources.map(r => r.id === activeResource.id ? { ...r, project_id: projectId } : r));
-                            }
-                        }}
+                        onAssignProject={async (projectId) => { /* your existing code */ }}
+                        onSave={handleSaveResource}
+                        onDelete={handleDeleteResource}
                     />
                 </>
             )} 

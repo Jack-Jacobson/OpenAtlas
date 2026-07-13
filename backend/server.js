@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -19,7 +21,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-require('dotenv').config();
 
 app.use('/api/auth', authRoutes);
 
@@ -103,7 +104,7 @@ app.put('/api/resources/:id/project', requireAuth, (req, res) => {
                             [projectId, req.params.id],
                             function (err) {
                                 if(err) {
-                                    return res.status(500).json({ success: false, messaeg: 'Failed to update resources'});
+                                    return res.status(500).json({ success: false, message: 'Failed to update resources'});
                                 }
                                 res.json({ success: true, message: 'Resurce assigned to project.'});
                             }
@@ -217,6 +218,34 @@ app.get('/api/resources', requireAuth, (req, res) => {
             data: rows
         });
     });
+});
+
+app.put('/api/resources/:id', requireAuth, (req, res) => {
+    const { title, notes} = req.body;
+    const db = getDbConnection();
+    db.run(
+        'UPDATE resources SET title = ?, notes = ? WHERE id = ? AND user_id = ?',
+        [title, notes, req.params.id, req.userId],
+        function (err) {
+            if(err) return res.status(500).json({ success: false, message: 'Failed to update resource.' });
+            if (this.changes === 0) return res.status(404).json({  success: false, message: 'Resource not found.' });
+            res.json({ success: true, message: 'Resource updated'});
+        }
+    )
+});
+
+app.delete('/api/resources/:id', requireAuth, (req,res) => {
+    const db = getDbConnection();
+    
+    db.run(
+        'DELETE FROM resources WHERE id = ? AND user_id = ?',
+        [req.params.id, req.userId],
+        function(err) {
+            if(err) return res.status(500).json({ success: false, message: 'Failed tp delete resurce.' });
+            if (this.changes === 0) return res.status(404).json({ success: false, message: 'Resource not found.'});
+            res.json({ success: true, message: 'Resource deleted.'});
+        }
+    )
 });
 
 app.use((req, res) => {

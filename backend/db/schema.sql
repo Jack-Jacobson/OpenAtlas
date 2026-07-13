@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS resources (
     notes TEXT,
     content_snippet TEXT,
     project_id TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS projects (
