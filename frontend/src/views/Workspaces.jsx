@@ -67,9 +67,7 @@ export default function Workspaces({ projects, resources, onProjectsChange, onSe
 
             <div className="workspace-list">
                 <h3>Your Projects</h3>
-                <button type="button" className="toggle-btn" onClick={reloadResources}>
-                    Refresh Resources
-                </button>
+
                 {projects.length === 0 && <p className="empty-state">No projects yet. Create one above.</p>}
                 {projects.map(p => (
                     <div key={p.id} className="workspace-card">

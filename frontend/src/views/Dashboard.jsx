@@ -17,18 +17,34 @@ export default function Dashboard(){
     const [activeProjectId, setActiveProjectId] = useState(null);
     const [feedback, setFeedback] = useState('');
 
+    const loadLiveData = async() => {
+        try {
+            const res = await fetch('/api/resources', { credentials: 'include' });
+            const json = await res.json();
+            if (res.ok && json.success) setResources(json.data);
+        } catch (err) {
+            console.error("Failed to sync with database", err);
+        }
+    };
+
     useEffect(() => {
-        const loadLiveData = async () => {
-            try {
-                const res = await fetch('/api/resources', { credentials: 'include' });
-                const json = await res.json();
-                if (res.ok && json.success) setResources(json.data);
-            } catch (err) {
-                console.error("Failed to synchronize with database:", err);
+        loadLiveData();
+
+        const handleVisibilityChange = () => {
+            if(document.visibilityState === 'visible'){
+                loadLiveData();
             }
         };
-        loadLiveData();
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('focus', loadLiveData);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('focus', loadLiveData);
+        };
     }, []);
+
 
     useEffect(() => {
         fetch('/api/projects', { credentials: 'include' })
@@ -50,6 +66,7 @@ export default function Dashboard(){
                 setResources(resources.map(r => r.id === id ? { ...r, title, notes } : r));
                 setActiveResource(prev => (prev && prev.id === id) ? { ...prev, title, notes } : prev);
                 setFeedback('Changes saved.');
+                loadLiveData();
             } else {
                 setFeedback(data.message || 'Failed to save changes.');
             }
@@ -73,6 +90,7 @@ export default function Dashboard(){
                 setActiveResource(null);
                 setInspectorOpen(false);
                 setFeedback('Resource deleted.');
+                loadLiveData();
             } else {
                 setFeedback(data.message || 'Failed to delete resource.');
             }
@@ -99,6 +117,7 @@ export default function Dashboard(){
                     resources={resources}
                     onProjectsChange={setProjects}
                     onSelectProject={(id) => setActiveProjectId(id)}
+                    reloadResources={loadLiveData}
                 />
             ) : activeView === 'settings' ? (
                 <Settings onClose={() => setActiveView('dashboard')} />
