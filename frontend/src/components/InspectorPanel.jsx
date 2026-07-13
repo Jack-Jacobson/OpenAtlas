@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function InspectorPanel({ isOpen, closePanel, activeResource, projects, onAssignProject, onSave, onDelete }) {
-    const [title, setTitle] = useState('');
+export default function InspectorPanel({ isOpen, closePanel, activeResource, projects, onAssignProject, onSave, onDelete, feedback }) {    const [title, setTitle] = useState('');
     const [notes, setNotes] = useState('');
 
     useEffect(() => {
@@ -72,6 +71,7 @@ export default function InspectorPanel({ isOpen, closePanel, activeResource, pro
                             Delete Resource Entry
                         </button>
                     </div>
+                    {feedback && <div className="auth-error-banner">{feedback}</div>}
                 </div>
             )}
         </aside>
