@@ -19,6 +19,8 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+require('dotenv').config();
+
 app.use('/api/auth', authRoutes);
 
 const {requireAuth} = require('./auth');
@@ -75,7 +77,7 @@ app.get('/api/projects', requireAuth, (req, res) => {
     );
 });
 
-app.put('/api/resources/id/project', requireAuth, (req, res) => {
+app.put('/api/resources/:id/project', requireAuth, (req, res) => {
     const { projectId } = req.body;
     const db = getDbConnection();
 
