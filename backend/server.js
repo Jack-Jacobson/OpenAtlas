@@ -248,6 +248,44 @@ app.delete('/api/resources/:id', requireAuth, (req,res) => {
     )
 });
 
+app.put('/api/projects/:id', requireAuth, (req, res) => {
+    const { name, description } = req.body;
+    if(!name || typeof name !== 'string' || name.trim().length === 0){
+        return res.status(400).json({ success: false, message: 'Project name required.' });
+    }
+
+    const db = getDbConnection();
+    db.run(
+        'UPDATE projects SET name = ?, description = ? WHERE id = ? AND user_id = ?',
+        [name.trim(), description || null, req.params.id, req.userId],
+        function (err) {
+            if (err) return res.status(500).json({ success:false, message: 'Project not found.' });
+            res.json({ success: true, message: 'Project upgdated.' });
+        }
+    );
+});
+
+app.delete('/api/projects/:id', requireAuth, (req, res) => {
+    const db = getDbConnection();
+
+    db.run(
+        'UPDATE resources SET project_id = NULL WHERE project_id = ? AND user_id = ?',
+        [req.params.id, req.userId],
+        function (err) {
+            if(err) return res.status(500).json({ success: false, message: 'Failed to unassign resources.' });
+
+            db.run (
+                'DELETE FROM projects WHERE id = ? AND user_id = ?',
+                [req.params.id, req.userId],
+                function(err) {
+                    if(err) return res.status(404).json({ success: false, message: 'Project not found.'});
+                    if(this.changes === 0) return res.status(404).json({ success: false, message: 'Project not found.' });
+                    res.json({ success: true, message: "Project Deleted"})
+                }
+            );
+        }
+    );
+});
 app.use((req, res) => {
   res.status(404).json({
     success: false,
