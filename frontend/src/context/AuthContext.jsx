@@ -5,7 +5,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);   // fixed typo
+  const [isLoading, setIsLoading] = useState(true);  
 
   useEffect(() => {
     const verifySession = async () => {
@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(false);
         setUser(null);
       } finally {
-        setIsLoading(false);   // now matches setter
+        setIsLoading(false);  
       }
     };
 
@@ -72,12 +72,12 @@ export function AuthProvider({ children }) {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },   // fixed
+        headers: { 'Content-Type': 'application/json' },  
         body: JSON.stringify({ username, password, email })
       });
 
       return handleAuthResponse(res);
-    } catch (err) {   // fixed missing error parameter
+    } catch (err) {   
       console.error('Register error:', err);
       return { success: false, error: 'Network error. Try again.' };
     }
