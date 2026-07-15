@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://localhost:5000/api/resources';
+const BACKEND_URL = 'https://openatlas.jackjacobson2011.com/api/resources';
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action !== 'SEND_DATA') {

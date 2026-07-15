@@ -107,7 +107,7 @@ async function loadProjects(){
 }
 
 signupLink.addEventListener('click', () => {
-    chrome.tabs.create({ url: 'http://localhost:5173/'});
+    chrome.tabs.create({ url: 'https://openatlas.jackjacobson2011.com/'});
 });
 
 logoutBtn.addEventListener('click', async () => {
