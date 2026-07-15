@@ -10,8 +10,16 @@
         "128": "images/icon128.png"
     },
     "browser_specific_settings": {
-        "gecko": {
-            "id": "openatlas@jackjacobson2011.com"
+    "gecko": {
+        "id": "openatlas@jackjacobson2011.com",
+        "data_collection_permissions": {
+            "required": [
+                    "websiteContent",
+                    "websiteActivity",
+                    "personallyIdentifyingInfo",
+                    "authenticationInfo"
+                ]
+            }
         }
     },
     "permissions": [
@@ -19,6 +27,9 @@
         "scripting",
         "storage"
     ],
+    "data_collection_permissions": {
+        "data_collection": true
+    },
     "host_permissions": [
         "https://openatlas.jackjacobson2011.com/*"
     ],
