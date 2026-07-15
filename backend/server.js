@@ -7,6 +7,7 @@ const crypto = require('crypto');
 const {initializeDatabase, getDbConnection} = require('./config/database');
 const {initializeUsersDatabase, getUsersDbConnection} = require('./config/usersDatabase');
 const authRoutes = require ('./authRoutes');
+const { logEvent } = require('./logger');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -150,6 +151,8 @@ app.delete('/api/auth/delete-account', requireAuth, (req,res) => {
                     console.error('Delete user error:', err.message);
                     return res.status(500).json({success: false, message: 'Failed to delete account'});
                 }
+
+                logEvent('ACCOUNT_DELETED', `user=${req.userId} username="${req.username}"`);
             
                 res.clearCookie('token', {
                     httpOnly: true,
@@ -186,7 +189,7 @@ app.post('/api/resources', requireAuth, (req,res) => {
             });
         }
 
-        console.log(`Saved to SQL: "${title}" (ID: ${resourceId})`);
+        logEvent('RESOURCE_SAVED', `user=${req.userId} title="${title}" url=${url}`);
 
         res.status(200).json({
             success: true,
@@ -245,6 +248,8 @@ app.delete('/api/resources/:id', requireAuth, (req,res) => {
         function(err) {
             if(err) return res.status(500).json({ success: false, message: 'Failed tp delete resurce.' });
             if (this.changes === 0) return res.status(404).json({ success: false, message: 'Resource not found.'});
+
+            logEvent('RESOURCE_DELETED', `user=${req.userId} resourceId=${req.params.id}`);
             res.json({ success: true, message: 'Resource deleted.'});
         }
     )
@@ -282,6 +287,8 @@ app.delete('/api/projects/:id', requireAuth, (req, res) => {
                 function(err) {
                     if(err) return res.status(404).json({ success: false, message: 'Project not found.'});
                     if(this.changes === 0) return res.status(404).json({ success: false, message: 'Project not found.' });
+
+                    logEvent('PROJECT_DELETED', `user=${req.userId} projectId=${req.params.id}`);
                     res.json({ success: true, message: "Project Deleted"})
                 }
             );

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { getUsersDbConnection } = require('./config/usersDatabase');
 const { JWT_SECRET } = require('./auth');
+const { logEvent } = require('./logger');
 
 const router = express.Router();
 const SALT_ROUNDS = 12;
@@ -111,7 +112,7 @@ router.post('/register', async (req, res) => {
 
           db.get(
             'SELECT id, username, email, created_at FROM users WHERE id = ?',
-            [userId],
+            [userId], 
             (selectErr, user) => {
               if (selectErr || !user) {
                 return res.status(500).json({
@@ -127,6 +128,7 @@ router.post('/register', async (req, res) => {
               );
 
               res.cookie('token', token, COOKIE_OPTS);
+              logEvent('ACCOUNT_CREATED', `username="${user.username}" id=${user.id}`);
               return res.status(201).json({
                 success: true,
                 user: sanitizeUser(user),
@@ -188,8 +190,8 @@ router.post('/login', async (req, res) => {
         JWT_SECRET,
         { expiresIn: '7d' }
       );
-
       res.cookie('token', token, COOKIE_OPTS);
+      logEvent('SIGN_IN', `username="${user.username}" id=${user.id}`);
       return res.json({
         success: true,
         user: sanitizeUser(user),
@@ -246,16 +248,29 @@ router.get('/status', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('token', {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production'
-  });
+    const token = req.cookies?.token;
+    let username = 'unknown';
 
-  return res.json({
-    success: true,
-    message: 'Session terminated!'
-  });
+    if (token) {
+        try {
+            const payload = jwt.verify(token, JWT_SECRET);
+            username = payload.username;
+        } catch (err) {
+
+        }
+    }
+
+    res.clearCookie('token', {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+    });
+
+    logEvent('SIGN_OUT', `username="${username}"`);
+    return res.json({
+        success: true,
+        message: 'Session terminated!'
+    });
 });
 
 module.exports = router;
