@@ -4,6 +4,7 @@ import ContentFeed from '../components/ContentFeed.jsx';
 import InspectorPanel from '../components/InspectorPanel.jsx';
 import Workspaces from './Workspaces.jsx';
 import Settings from './Settings.jsx';
+import ProjectDetail from './ProjectDetail.jsx';
 
 export default function Dashboard(){
     const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -108,7 +109,11 @@ export default function Dashboard(){
                 onNavigate={setActiveView}
                 activeView={activeView}
                 projects={projects}
-                onSelectProject={setActiveProjectId}
+                activeProjectId={activeProjectId}
+                onSelectProject={(id) => {
+                    setActiveProjectId(id);
+                    setActiveView('projectDetail');
+                }}
             />
 
             {activeView === 'workspaces' ? (
@@ -116,12 +121,25 @@ export default function Dashboard(){
                     projects={projects}
                     resources={resources}
                     onProjectsChange={setProjects}
-                    onSelectProject={(id) => setActiveProjectId(id)}
+                    onSelectProject={(id) => {
+                        setActiveProjectId(id);
+                        setActiveView('projectDetail');
+                    }}
                     reloadResources={loadLiveData}
                 />
             ) : activeView === 'settings' ? (
                 <Settings onClose={() => setActiveView('dashboard')} />
+            ) : activeView === 'projectDetail' ? (
+                <ProjectDetail
+                    projectId={activeProjectId}
+                    projects={projects}
+                    resources={resources}
+                    onBack={() => setActiveView('workspaces')}
+                    onProjectsChange={setProjects}
+                    onResourcesChange={setResources}
+                />
             ) : (
+               
                 <>
                     <ContentFeed
                         toggleSidebar={() => setSidebarOpen(!isSidebarOpen)}
