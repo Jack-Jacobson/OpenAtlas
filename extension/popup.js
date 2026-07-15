@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'https://openatlas.jackjacobson2011.com';
 
 const loginView = document.getElementById('login-view');
 const saveView = document.getElementById('save-view');
@@ -81,7 +81,7 @@ async function loadProjects(){
     if(!token) return;
 
     try {
-        const res = await fetch('http://localhost:5000/api/projects', {
+        const res = await fetch(`${BACKEND_URL}/api/projects`, {
             headers: { 'Authorization': `Bearer ${token}`}
         });
 
@@ -156,7 +156,7 @@ saveBtn.addEventListener('click', async () => {
             if (response?.success) {
                 statusDiv.textContent = 'Saved to your Atlas!';
 
-                if (tab.url && tab.url.startsWith('http://localhost:5173/')) {
+                if (tab.url && tab.url.startsWith('https://openatlas.jackjacobson2011.com/')) {
                     chrome.tabs.reload(tab.id);
                 }
 
