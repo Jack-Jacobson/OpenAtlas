@@ -2,7 +2,7 @@ export default function PrivacyPolicy() {
     return (
         <div className="legal-content">
             <h2>OpenAtlas Privacy Policy</h2>
-            <p className="legal-updated">Last Updated: [Insert Date]</p>
+            <p className="legal-updated">Last Updated: July 14, 2026</p>
 
             <h3>1. Introduction</h3>
             <p>This Privacy Policy explains how OpenAtlas ("we," "our," or "the Service") collects, uses, stores, and protects information when you use the OpenAtlas web application and browser extension. OpenAtlas is an open-source personal knowledge management tool that lets you save and organize web resources into projects.</p>

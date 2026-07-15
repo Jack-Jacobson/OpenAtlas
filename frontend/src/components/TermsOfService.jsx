@@ -2,7 +2,7 @@ export default function TermsOfService() {
     return (
         <div className="legal-content">
             <h2>OpenAtlas Terms of Service</h2>
-            <p className="legal-updated">Last Updated: [Insert Date]</p>
+            <p className="legal-updated">Last Updated: July 14, 2026</p>
 
             <h3>1. Acceptance of Terms</h3>
             <p>By creating an account, accessing the OpenAtlas web dashboard, or installing the OpenAtlas browser extension ("the Service"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.</p>
