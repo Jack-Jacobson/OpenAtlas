@@ -18,6 +18,13 @@ export default function About() {
                     lets you save the page you're currently on in a single click.
                 </p>
 
+                <h3>Here From Hackclub</h3>
+                <p>
+                    Feel free to use the below credentis if you prefer to not make your account (account is monitered, please be responsible
+                    <br> Username: <code>hackclub</code>
+                    <br> Password: <code>stardance</code>
+                </p>
+
                 <h3>Get the Extension</h3>
                 <p>Install the extension for your browser below, then create an account to start saving.</p>
 
