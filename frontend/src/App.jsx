@@ -5,6 +5,7 @@ import Signup from './components/Signup.jsx';
 import PrivacyPolicy from './views/PrivacyPolicy.jsx';
 import TermsOfService from './views/TermsOfService.jsx';
 import Footer from './components/Footer.jsx';
+import About from './views/About.jsx';
 import { useAuth } from './context/AuthContext.jsx';
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/about" element={<About />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Footer />
