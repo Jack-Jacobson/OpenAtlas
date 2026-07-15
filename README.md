@@ -3,7 +3,7 @@ The best solution for keeping your resources organized in projects, research, an
 See the live project [here](openatlas.jackjacobson2011.com)
 Download the extension below:
 
-![OpenAtlas logo](frontend\src\assets\readme-assets\OpeAtlasHackClub.png)
+![OpenAtlas logo](frontend/src/assets/readme-assets/OpeAtlasHackClub.png)
 
 ## Overview
 
@@ -38,13 +38,13 @@ You can then manage those resources, access them, manage and update your project
 - vitejs react plugin v4.3.1
 - Plain csss
   
-![Picture of dashboard](frontend\src\assets\readme-assets\Dashboard.png)
+![Picture of dashboard](frontend/src/assets/readme-assets/Dashboard.png)
 
 ### Browser Extension
 - Manifest V3
 - Vanilla JS
 
-![Extension screenshot](frontend\src\assets\readme-assets\extension.png)
+![Extension screenshot](frontend/src/assets/readme-assets/extension.png)
 ### Infastructure
 - [HackClub Nest](nest.hackclub.com)
 - PM2
