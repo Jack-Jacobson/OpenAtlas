@@ -12,6 +12,8 @@ const saveBtn = document.getElementById('save-btn');
 const statusDiv = document.getElementById('statusDiv');
 const currentUser = document.getElementById('current-user');
 const logoutBtn = document.getElementById('logout-btn');
+const privacyLink = document.getElementById('privacy-link');
+const termsLink = document.getElementById('terms-link');
 
 function showLogin() {
     loginView.classList.remove('hidden');
@@ -107,7 +109,7 @@ async function loadProjects(){
 }
 
 signupLink.addEventListener('click', () => {
-    chrome.tabs.create({ url: 'https://openatlas.jackjacobson2011.com/'});
+    chrome.tabs.create({ url: 'https://openatlas.jackjacobson2011.com/signup'});
 });
 
 logoutBtn.addEventListener('click', async () => {
@@ -119,7 +121,13 @@ logoutBtn.addEventListener('click', async () => {
     }
     showLogin();
 });
+privacyLink.addEventListener('click', () => {
+    chrome.tabs.create({ url: 'https://openatlas.jackjacobson2011.com/privacy' });
+});
 
+termsLink.addEventListener('click', () => {
+    chrome.tabs.create({ url: 'https://openatlas.jackjacobson2011.com/terms' });
+});
 saveBtn.addEventListener('click', async () => {
     statusDiv.textContent= 'Capturing...';
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

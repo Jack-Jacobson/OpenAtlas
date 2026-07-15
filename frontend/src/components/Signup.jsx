@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
-export default function Signup ({onSwitchToLogin}) {
+export default function Signup() {
     const { register } = useAuth();
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,8 +35,9 @@ export default function Signup ({onSwitchToLogin}) {
         setIsSubmitting(true);
         const result = await register(username, password, email || undefined);
 
-
-        if(!result.success){
+        if (result.success) {
+            navigate('/dashboard');
+        } else {
             setError(result.error || 'Error during account creation, please try again.');
         }
 
@@ -102,7 +106,7 @@ export default function Signup ({onSwitchToLogin}) {
 
                     <p className="auth-toggle">
                         Already have an account?{' '}
-                        <button type="button" className="link-button" onClick={onSwitchToLogin}>
+                        <button type="button" className="link-button" onClick={() => navigate('/login')}>
                             Sign in
                         </button>
                     </p>

@@ -130,6 +130,11 @@
             font-size: 11px;
             color: var(--text-muted);
         }
+        .popup-legal-links {
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
@@ -170,6 +175,13 @@
         <div id="statusDiv" class="status"></div>
     </div>
 
+    <p class="auth-toggle popup-legal-links">
+        <button type="button" id="privacy-link" class="link-button">Privacy</button>
+        ·
+        <button type="button" id="terms-link" class="link-button">Terms</button>
+    </p>
+
     <script src="popup.js"></script>
+</body>
 </body>
 </html>

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export default function Login({onSwitchToSignup}) {
-    const {login} = useAuth();
+export default function Login() {
+    const { login } = useAuth();
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -15,7 +17,9 @@ export default function Login({onSwitchToSignup}) {
 
         const result = await login(username, password);
 
-        if(!result.success){
+        if (result.success) {
+            navigate('/dashboard');
+        } else {
             setError(result.error || 'Access denied: Invalid credentials.');
         }
         setIsSubmitting(false);
@@ -62,7 +66,7 @@ export default function Login({onSwitchToSignup}) {
 
                 <p className="auth-toggle">
                     Need an account?{' '}
-                    <button type="button" className="link-button" onClick={onSwitchToSignup}>
+                    <button type="button" className="link-button" onClick={() => navigate('/signup')}>
                         Create one
                     </button>
                 </p>
