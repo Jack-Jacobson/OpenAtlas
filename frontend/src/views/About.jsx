@@ -18,15 +18,26 @@ export default function About() {
                     lets you save the page you're currently on in a single click.
                 </p>
 
-                <h3>Here From Hackclub?</h3>
-                <p>
-                    Feel free to use the below credentis if you prefer to not make your account (account is monitered, please be responsible
-                    <br /> Username: <code>hackclub</code>
-                    <br /> Password: <code>stardance</code>
-                </p>
+                <h2>Here From Hackclub?</h2>
+                <p>While I reccomend you create your own account (no email necessary), you are free to use the below credentials. Please be responsible and note that any resources or notes saved in that account will be monitered.</p>
+                
+                <li>Username: hackclub</li>
+                <li>Password: stardance</li>
 
-                <h3>Get the Extension</h3>
+                <br></br>
+                <h2>Get the Extension</h2>
                 <p>Install the extension for your browser below, then create an account to start saving.</p>
+                
+                <div className="extension-download-row">
+                    <a
+                        href="https://addons.mozilla.org/en-US/firefox/addon/openatlas-collector/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="auth-action download-btn"
+                    >
+                        Get for Firefox
+                    </a>
+                </div>
 
                 <div className="extension-download-row">
                     <a
@@ -35,14 +46,14 @@ export default function About() {
                         rel="noreferrer"
                         className="auth-action download-btn"
                     >
-                        Get for Your Browser (Manual Install)
+                        Get For Other Browser (Manual Install)
                     </a>
                 </div>
 
                 <h3>How to Install</h3>
 
 
-                <h4>Firefox / Chrome / Edge / Brave</h4>
+                <h4> Chrome / Edge / Opera / Brave</h4>
                 <p>These browsers don't yet have OpenAtlas in their official stores, so install it manually (firefox coming to webstore soon):</p>
                 <ol>
                     <li>Download the extension folder from the link above</li>
