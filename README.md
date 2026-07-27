@@ -10,6 +10,10 @@ Download the extension below:
 OpenAtlas is made up of two main parts: a web-based dashboard, and a browser extension. You download the extension and connect it your OpenAtlas account. Using the extension, you can save browser tabs with an optional title, description, and project to the web-based dashboard with the built-in UI. 
 You can then manage those resources, access them, manage and update your projects, and more at the webui.
 
+## Important
+
+Extension download info, HackClub credentials, more instructions on how to use the project and more avalbile at this guide: [https://openatlas.jackjacobson2011.com/about](https://openatlas.jackjacobson2011.com/about)
+
 ## Tech Stack
 
 ### Backend
