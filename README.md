@@ -15,10 +15,10 @@ You can then manage those resources, access them, manage and update your project
 For a visual look at how the project works, see the below videos.
 
 ### Dashboard, projects, and more!:
-![demo vid](https://cdn.hackclub.com/019fa646-e713-7fb7-86b2-d0c9dac6200f/screen_recording_2026-07-27_210523.gif)
+![demo vid](frontend\src\assets\readme-assets\dashboard.gif)
 
 ### Extension use and integration!:
-![demo vid](https://cdn.hackclub.com/019fa646-e9ce-79d8-9427-be8c8b2d8890/screen_recording_2026-07-27_210407.gif)
+![demo vid](frontend\src\assets\readme-assets\extension_instal.gif)
 
 ## Extension Installation:
 
@@ -32,7 +32,7 @@ Simply install from the Firefox Addon store [here](https://addons.mozilla.org/en
 4. Click load unpacked and navigate to the folder you extracted (called extension), inside that folder select the extension folder and click select.
 
 For visuals, see the below tutorial (sorry about quality)!
-![tutorial](https://cdn.hackclub.com/019fa651-4cd1-7556-bacc-eca61e9be316/screen_recording_2026-07-27_212057.gif)
+![tutorial](frontend\src\assets\readme-assets\extension_instal.gif)
 
 ## Tech Stack
 

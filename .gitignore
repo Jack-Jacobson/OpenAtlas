@@ -11,5 +11,6 @@ node_modules/
 backend/db/*.db
 
 *.pem
+*.log
 
 extension.pem
