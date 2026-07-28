@@ -12,7 +12,7 @@ You can then manage those resources, access them, manage and update your project
 
 ## Demonstrations
 
-For a visual look at how the project works, see the below videos.
+For a visual look at how the project works, see the below videos (SO SORRY ABOUT QUALITY I CANT GET AROUND THE WEIRD COMPRESSION).
 
 ### Dashboard, projects, and more!:
 ![demo vid](frontend/src/assets/readme-assets/dashboard.gif)
@@ -31,7 +31,7 @@ Simply install from the Firefox Addon store [here](https://addons.mozilla.org/en
 3. Enable developer mode in the top right corner
 4. Click load unpacked and navigate to the folder you extracted (called extension), inside that folder select the extension folder and click select.
 
-For visuals, see the below tutorial (sorry about quality)!
+For visuals, see the below tutorial (SO SORRY ABOUT QUALITY I CANT GET AROUND THE WEIRD COMPRESSION)!
 ![tutorial](frontend/src/assets/readme-assets/extension_instal.gif)
 
 ## Tech Stack
