@@ -10,9 +10,29 @@ Download the extension below:
 OpenAtlas is made up of two main parts: a web-based dashboard, and a browser extension. You download the extension and connect it your OpenAtlas account. Using the extension, you can save browser tabs with an optional title, description, and project to the web-based dashboard with the built-in UI. 
 You can then manage those resources, access them, manage and update your projects, and more at the webui.
 
-## Important
+## Demonstrations
 
-Extension download info, HackClub credentials, more instructions on how to use the project and more avalbile at this guide: [https://openatlas.jackjacobson2011.com/about](https://openatlas.jackjacobson2011.com/about)
+For a visual look at how the project works, see the below videos.
+
+### Dashboard, projects, and more!:
+![demo vid](https://cdn.hackclub.com/019fa646-e713-7fb7-86b2-d0c9dac6200f/screen_recording_2026-07-27_210523.gif)
+
+### Extension use and integration!:
+![demo vid](https://cdn.hackclub.com/019fa646-e9ce-79d8-9427-be8c8b2d8890/screen_recording_2026-07-27_210407.gif)
+
+## Extension Installation:
+
+### FIREFOX:
+Simply install from the Firefox Addon store [here](https://addons.mozilla.org/en-US/firefox/addon/openatlas-collector/)
+
+### OTHER BROWSERS:
+1. Download and extract the latest extension from [here](https://github.com/Jack-Jacobson/OpenAtlas/releases/tag/extension) (download the zip file, then right click -> extract)
+2. In your browser, navigate to [chrome://extensions](chrome://extensions)
+3. Enable developer mode in the top right corner
+4. Click load unpacked and navigate to the folder you extracted (called extension), inside that folder select the extension folder and click select.
+
+For visuals, see the below tutorial (sorry about quality)!
+![tutorial](https://cdn.hackclub.com/019fa651-4cd1-7556-bacc-eca61e9be316/screen_recording_2026-07-27_212057.gif)
 
 ## Tech Stack
 
