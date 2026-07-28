@@ -15,10 +15,10 @@ You can then manage those resources, access them, manage and update your project
 For a visual look at how the project works, see the below videos.
 
 ### Dashboard, projects, and more!:
-![demo vid](frontend\src\assets\readme-assets\dashboard.gif)
+![demo vid](frontend/src/assets/readme-assets/dashboard.gif)
 
 ### Extension use and integration!:
-![demo vid](frontend\src\assets\readme-assets\extension_instal.gif)
+![demo vid](frontend/src/assets/readme-assets/extension.gif)
 
 ## Extension Installation:
 
@@ -32,7 +32,7 @@ Simply install from the Firefox Addon store [here](https://addons.mozilla.org/en
 4. Click load unpacked and navigate to the folder you extracted (called extension), inside that folder select the extension folder and click select.
 
 For visuals, see the below tutorial (sorry about quality)!
-![tutorial](frontend\src\assets\readme-assets\extension_instal.gif)
+![tutorial](frontend/src/assets/readme-assets/extension_instal.gif)
 
 ## Tech Stack
 
