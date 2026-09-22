@@ -24,11 +24,13 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-
-app.use('/api/auth', authRoutes);
+// Replaced /api/auth with /auth to account for Coolify stripping the prefix
+app.use('/auth', authRoutes);
 
 const {requireAuth} = require('./auth');
-app.get('/api/me', requireAuth, (req,res) => {
+
+// Removed /api/ from all routes
+app.get('/me', requireAuth, (req,res) => {
     res.json({
         success: true,
         userId: req.userId,
@@ -36,7 +38,7 @@ app.get('/api/me', requireAuth, (req,res) => {
     });
 });
 
-app.post('/api/projects', requireAuth, (req, res) => {
+app.post('/projects', requireAuth, (req, res) => {
     const { name,description } = req.body;
     if(!name || typeof name !== 'string' || name.trim().length === 0) {
         return res.status(400).json({success: false, message: 'Project name required.'});
@@ -64,7 +66,7 @@ app.post('/api/projects', requireAuth, (req, res) => {
     );
 });
 
-app.get('/api/projects', requireAuth, (req, res) => {
+app.get('/projects', requireAuth, (req, res) => {
     const db = getDbConnection();
 
     db.all(
@@ -73,7 +75,7 @@ app.get('/api/projects', requireAuth, (req, res) => {
         (err, rows) => {
             if(err) {
                 console.error('Project fetch error:', err.message);
-                return res.status(500).json({success: false, message: 'Failed to get projecs.'});
+                return res.status(500).json({success: false, message: 'Failed to get projects.'});
             }
 
             res.json({ success: true, projects: rows });
@@ -81,7 +83,7 @@ app.get('/api/projects', requireAuth, (req, res) => {
     );
 });
 
-app.put('/api/resources/:id/project', requireAuth, (req, res) => {
+app.put('/resources/:id/project', requireAuth, (req, res) => {
     const { projectId } = req.body;
     const db = getDbConnection();
 
@@ -107,9 +109,9 @@ app.put('/api/resources/:id/project', requireAuth, (req, res) => {
                             [projectId, req.params.id],
                             function (err) {
                                 if(err) {
-                                    return res.status(500).json({ success: false, message: 'Failed to update resources'});
+                                    return res.status(500).json({ success: false, message: 'Failed to update resources.'});
                                 }
-                                res.json({ success: true, message: 'Resurce assigned to project.'});
+                                res.json({ success: true, message: 'Resource assigned to project.'});
                             }
                         );
                     }
@@ -130,7 +132,7 @@ app.put('/api/resources/:id/project', requireAuth, (req, res) => {
     );
 });
 
-app.delete('/api/auth/delete-account', requireAuth, (req,res) => {
+app.delete('/auth/delete-account', requireAuth, (req,res) => {
     const mainDb = getDbConnection();
     const usersDb = getUsersDbConnection();
 
@@ -166,7 +168,7 @@ app.delete('/api/auth/delete-account', requireAuth, (req,res) => {
     });
 });
 
-app.post('/api/resources', requireAuth, (req,res) => {
+app.post('/resources', requireAuth, (req,res) => {
     const {url, title, notes, projectId} = req.body;
     const db = getDbConnection();
     const resourceId = crypto.randomUUID();
@@ -199,7 +201,7 @@ app.post('/api/resources', requireAuth, (req,res) => {
     });
 });
 
-app.get('/api/resources', requireAuth, (req, res) => {
+app.get('/resources', requireAuth, (req, res) => {
     const db = getDbConnection();
     const sqlQuery = `
         SELECT id, url, title, notes, project_id, created_at
@@ -225,7 +227,7 @@ app.get('/api/resources', requireAuth, (req, res) => {
     });
 });
 
-app.put('/api/resources/:id', requireAuth, (req, res) => {
+app.put('/resources/:id', requireAuth, (req, res) => {
     const { title, notes} = req.body;
     const db = getDbConnection();
     db.run(
@@ -239,14 +241,14 @@ app.put('/api/resources/:id', requireAuth, (req, res) => {
     )
 });
 
-app.delete('/api/resources/:id', requireAuth, (req,res) => {
+app.delete('/resources/:id', requireAuth, (req,res) => {
     const db = getDbConnection();
     
     db.run(
         'DELETE FROM resources WHERE id = ? AND user_id = ?',
         [req.params.id, req.userId],
         function(err) {
-            if(err) return res.status(500).json({ success: false, message: 'Failed tp delete resurce.' });
+            if(err) return res.status(500).json({ success: false, message: 'Failed to delete resource.' });
             if (this.changes === 0) return res.status(404).json({ success: false, message: 'Resource not found.'});
 
             logEvent('RESOURCE_DELETED', `user=${req.userId} resourceId=${req.params.id}`);
@@ -255,7 +257,7 @@ app.delete('/api/resources/:id', requireAuth, (req,res) => {
     )
 });
 
-app.put('/api/projects/:id', requireAuth, (req, res) => {
+app.put('/projects/:id', requireAuth, (req, res) => {
     const { name, description } = req.body;
     if(!name || typeof name !== 'string' || name.trim().length === 0){
         return res.status(400).json({ success: false, message: 'Project name required.' });
@@ -267,12 +269,12 @@ app.put('/api/projects/:id', requireAuth, (req, res) => {
         [name.trim(), description || null, req.params.id, req.userId],
         function (err) {
             if (err) return res.status(500).json({ success:false, message: 'Project not found.' });
-            res.json({ success: true, message: 'Project upgdated.' });
+            res.json({ success: true, message: 'Project updated.' });
         }
     );
 });
 
-app.delete('/api/projects/:id', requireAuth, (req, res) => {
+app.delete('/projects/:id', requireAuth, (req, res) => {
     const db = getDbConnection();
 
     db.run(
@@ -295,6 +297,7 @@ app.delete('/api/projects/:id', requireAuth, (req, res) => {
         }
     );
 });
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -316,7 +319,7 @@ async function startServer(){
         await initializeUsersDatabase();
 
         app.listen(PORT, () => {
-            console.log(`OpenAtlas server is actively listening on http://localhost:5000`);
+            console.log(`OpenAtlas server is actively listening on port ${PORT}`);
         });
     } catch (error) {
         console.error(`Server failed to start due to storage: ${error.message}`);
